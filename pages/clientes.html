@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Taller Racing - Clientes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Space+Grotesk:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#ac8884",
+                        "on-primary-fixed-variant": "#93000b",
+                        "tertiary-container": "#0078b2",
+                        "on-tertiary-fixed-variant": "#004b71",
+                        "error": "#ffb4ab",
+                        "background": "#131313",
+                        "on-primary": "#690005",
+                        "on-primary-fixed": "#410002",
+                        "inverse-on-surface": "#313030",
+                        "surface-tint": "#ffb4ab",
+                        "inverse-surface": "#e5e2e1",
+                        "primary-container": "#dc2626",
+                        "surface": "#131313",
+                        "on-tertiary-container": "#f3f8ff",
+                        "on-background": "#e5e2e1",
+                        "surface-dim": "#131313",
+                        "surface-container-low": "#1c1b1b",
+                        "secondary": "#c8c6c8",
+                        "surface-variant": "#353534",
+                        "on-surface": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#474649",
+                        "secondary-fixed": "#e4e2e4",
+                        "inverse-primary": "#bf0715",
+                        "on-tertiary": "#003450",
+                        "tertiary-fixed": "#cbe6ff",
+                        "on-error": "#690005",
+                        "surface-container": "#201f1f",
+                        "on-surface-variant": "#e6bdb8",
+                        "secondary-container": "#474649",
+                        "surface-container-high": "#2a2a2a",
+                        "on-tertiary-fixed": "#001e30",
+                        "primary": "#ffb4ab",
+                        "outline-variant": "#5c403c",
+                        "tertiary": "#90cdff",
+                        "surface-bright": "#3a3939",
+                        "on-primary-container": "#fff6f5",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed": "#1b1b1d",
+                        "primary-fixed-dim": "#ffb4ab",
+                        "surface-container-highest": "#353534",
+                        "on-secondary": "#303032",
+                        "primary-fixed": "#ffdad6",
+                        "on-secondary-container": "#b6b4b7",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#90cdff",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-fixed-dim": "#c8c6c8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0rem",
+                        "lg": "0rem",
+                        "xl": "0rem",
+                        "full": "0rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.surface');
+            color: theme('colors.on-surface');
+            font-family: theme('fontFamily.body');
+        }
+        .racing-stripe {
+            background-image: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.05) 10px,
+                rgba(255, 255, 255, 0.05) 20px
+            );
+        }
+        .ghost-border {
+            border: 1px solid rgba(92, 64, 60, 0.15); /* outline-variant at 15% */
+        }
+        .table-zebra tbody tr:nth-child(odd) {
+            background-color: theme('colors.surface-container-lowest');
+        }
+        .table-zebra tbody tr:nth-child(even) {
+            background-color: theme('colors.surface-container-low');
+        }
+        
+        /* Custom Scrollbar for racing feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.surface');
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.surface-variant');
+            border-radius: 0;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.primary-container');
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col w-72 bg-[#1c1b1b] fixed left-0 top-0 h-full py-6 overflow-y-auto shadow-none">
+<div class="px-8 mb-10">
+<h1 class="font-headline font-bold tracking-tighter uppercase text-white text-xl">PADDOCK OPS</h1>
+<p class="font-label font-medium tracking-[0.1em] text-[10px] text-white/60 mt-1 uppercase">V6-HYBRID SYSTEM</p>
+</div>
+<div class="flex-1 flex flex-col gap-1 w-full">
+<a class="flex items-center gap-4 px-8 py-4 font-label font-medium tracking-[0.1em] text-[12px] uppercase text-white/40 hover:bg-[#2a2a2a] hover:text-white transition-all duration-200 active:bg-[#DC2626]/20" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-4 px-8 py-4 font-label font-medium tracking-[0.1em] text-[12px] uppercase bg-[#2a2a2a] text-white border-l-[3px] border-[#DC2626] font-bold" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                Clientes
+            </a>
+<a class="flex items-center gap-4 px-8 py-4 font-label font-medium tracking-[0.1em] text-[12px] uppercase text-white/40 hover:bg-[#2a2a2a] hover:text-white transition-all duration-200 active:bg-[#DC2626]/20" href="#">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+                Vehículos
+            </a>
+<a class="flex items-center gap-4 px-8 py-4 font-label font-medium tracking-[0.1em] text-[12px] uppercase text-white/40 hover:bg-[#2a2a2a] hover:text-white transition-all duration-200 active:bg-[#DC2626]/20" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+                Órdenes de Trabajo
+            </a>
+<a class="flex items-center gap-4 px-8 py-4 font-label font-medium tracking-[0.1em] text-[12px] uppercase text-white/40 hover:bg-[#2a2a2a] hover:text-white transition-all duration-200 active:bg-[#DC2626]/20" href="#">
+<span class="material-symbols-outlined" data-icon="build">build</span>
+                Servicios
+            </a>
+<a class="flex items-center gap-4 px-8 py-4 font-label font-medium tracking-[0.1em] text-[12px] uppercase text-white/40 hover:bg-[#2a2a2a] hover:text-white transition-all duration-200 active:bg-[#DC2626]/20" href="#">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+                Repuestos
+            </a>
+<a class="flex items-center gap-4 px-8 py-4 font-label font-medium tracking-[0.1em] text-[12px] uppercase text-white/40 hover:bg-[#2a2a2a] hover:text-white transition-all duration-200 active:bg-[#DC2626]/20" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+                Usuarios
+            </a>
+</div>
+<div class="px-8 mt-auto pt-6 border-t border-surface">
+<div class="flex items-center gap-3">
+<img alt="Chief Engineer Profile" class="w-10 h-10 object-cover rounded-none grayscale border border-outline-variant/30" data-alt="Portrait of a serious male engineer with short hair, wearing a dark industrial uniform against a dark textured background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-FuayKPUmLYudIx3Grns11lHW3N7L9D4FZ3RO629lV1HI-aqq_NgvmXCKJ7Bfutjev3d7RC-TNrMmUnD7jD_HKetbSHnFq8n_36cKzRmLmRr2n4UEemBPs_tqP_YkqjEOcR4s9wIxOxz6sqRh_IJY_LUE6ZwjFgK-_UjMuQ-aEno75dLptFo7JImPt_PX05_b9_A-M0aWx8i62zr7ntUw6f_vbo6G8eWO3cKS9ydfHrqg2lcasQf6sgYKjgL56VmsgZLMNzDqZEE"/>
+<div>
+<p class="font-label text-xs font-bold text-on-surface uppercase">T. RACING</p>
+<p class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider">CHIEF ENGINEER</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col md:ml-72 w-full bg-surface min-h-screen relative">
+<!-- TopNavBar (Mobile Only) -->
+<header class="md:hidden flex justify-between items-center px-4 py-4 w-full bg-[#131313] sticky top-0 z-50 rounded-none shadow-none">
+<h1 class="font-['Space_Grotesk'] font-black italic text-[#DC2626] text-xl tracking-tighter uppercase">PRECISION PADDOCK</h1>
+<div class="flex items-center gap-4">
+<button class="text-white/60 hover:text-[#DC2626] transition-colors"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+<button class="text-white/60 hover:text-[#DC2626] transition-colors"><span class="material-symbols-outlined" data-icon="menu">menu</span></button>
+</div>
+</header>
+<!-- Page Header -->
+<div class="px-8 pt-10 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<div class="flex items-center gap-4 mb-2">
+<div class="w-[3px] h-10 bg-primary-container"></div>
+<h2 class="font-headline text-4xl md:text-5xl font-black text-on-surface tracking-[-0.04em] uppercase leading-none">CLIENTES</h2>
+</div>
+<p class="font-label text-sm text-on-surface-variant tracking-[0.15em] uppercase ml-5">Base de datos de pilotos registrados</p>
+</div>
+<div class="flex items-center gap-4 w-full md:w-auto">
+<div class="relative flex-1 md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full bg-surface-container-high border-b-2 border-surface-variant focus:border-primary-container text-on-surface font-label text-xs uppercase tracking-wider py-3 pl-9 pr-4 rounded-none outline-none transition-colors ghost-border placeholder:text-on-surface-variant/50" placeholder="BUSCAR ID, NOMBRE..." type="text"/>
+</div>
+<button class="bg-primary-container text-on-primary-container font-label text-xs font-bold uppercase tracking-wider py-3 px-6 hover:brightness-110 active:scale-[0.98] transition-all duration-150 flex items-center gap-2 flex-shrink-0">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+                    NUEVO CLIENTE
+                </button>
+</div>
+</div>
+<!-- Data Canvas -->
+<div class="px-8 pb-10 flex-1 overflow-auto">
+<div class="w-full overflow-x-auto ghost-border">
+<table class="w-full text-left border-collapse table-zebra">
+<thead>
+<tr class="bg-surface-container-high border-b-2 border-surface-variant">
+<th class="py-4 px-6 font-headline font-bold text-xs text-on-surface-variant tracking-[0.1em] uppercase w-20">ID</th>
+<th class="py-4 px-6 font-headline font-bold text-xs text-on-surface-variant tracking-[0.1em] uppercase">NOMBRE</th>
+<th class="py-4 px-6 font-headline font-bold text-xs text-on-surface-variant tracking-[0.1em] uppercase">APELLIDO</th>
+<th class="py-4 px-6 font-headline font-bold text-xs text-on-surface-variant tracking-[0.1em] uppercase">CÉDULA</th>
+<th class="py-4 px-6 font-headline font-bold text-xs text-on-surface-variant tracking-[0.1em] uppercase">TELÉFONO</th>
+<th class="py-4 px-6 font-headline font-bold text-xs text-on-surface-variant tracking-[0.1em] uppercase">EMAIL</th>
+<th class="py-4 px-6 font-headline font-bold text-xs text-on-surface-variant tracking-[0.1em] uppercase text-right w-24">ACCIONES</th>
+</tr>
+</thead>
+<tbody class="font-label text-sm text-on-surface">
+<tr class="border-b border-surface-variant/30 hover:bg-surface-container transition-colors group">
+<td class="py-4 px-6 font-mono text-xs text-primary-container">#C-001</td>
+<td class="py-4 px-6 font-medium">Carlos</td>
+<td class="py-4 px-6">Sainz</td>
+<td class="py-4 px-6 text-on-surface-variant">1712345678</td>
+<td class="py-4 px-6 text-on-surface-variant">+593 99 123 4567</td>
+<td class="py-4 px-6 text-on-surface-variant">carlos.s@racing.ec</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-lg" data-icon="edit">edit</span></button>
+<button class="text-on-surface-variant hover:text-primary-container"><span class="material-symbols-outlined text-lg" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="border-b border-surface-variant/30 hover:bg-surface-container transition-colors group">
+<td class="py-4 px-6 font-mono text-xs text-primary-container">#C-002</td>
+<td class="py-4 px-6 font-medium">Fernando</td>
+<td class="py-4 px-6">Alonso</td>
+<td class="py-4 px-6 text-on-surface-variant">1798765432</td>
+<td class="py-4 px-6 text-on-surface-variant">+593 98 765 4321</td>
+<td class="py-4 px-6 text-on-surface-variant">f.alonso@paddock.es</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-lg" data-icon="edit">edit</span></button>
+<button class="text-on-surface-variant hover:text-primary-container"><span class="material-symbols-outlined text-lg" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="border-b border-surface-variant/30 hover:bg-surface-container transition-colors group">
+<td class="py-4 px-6 font-mono text-xs text-primary-container">#C-003</td>
+<td class="py-4 px-6 font-medium">Max</td>
+<td class="py-4 px-6">Verstappen</td>
+<td class="py-4 px-6 text-on-surface-variant">1755555555</td>
+<td class="py-4 px-6 text-on-surface-variant">+593 97 555 5555</td>
+<td class="py-4 px-6 text-on-surface-variant">max.v@redbull.ec</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-lg" data-icon="edit">edit</span></button>
+<button class="text-on-surface-variant hover:text-primary-container"><span class="material-symbols-outlined text-lg" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="border-b border-surface-variant/30 hover:bg-surface-container transition-colors group">
+<td class="py-4 px-6 font-mono text-xs text-primary-container">#C-004</td>
+<td class="py-4 px-6 font-medium">Lewis</td>
+<td class="py-4 px-6">Hamilton</td>
+<td class="py-4 px-6 text-on-surface-variant">1744444444</td>
+<td class="py-4 px-6 text-on-surface-variant">+593 96 444 4444</td>
+<td class="py-4 px-6 text-on-surface-variant">l.hamilton@mercedes.ec</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-lg" data-icon="edit">edit</span></button>
+<button class="text-on-surface-variant hover:text-primary-container"><span class="material-symbols-outlined text-lg" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="border-b border-surface-variant/30 hover:bg-surface-container transition-colors group">
+<td class="py-4 px-6 font-mono text-xs text-primary-container">#C-005</td>
+<td class="py-4 px-6 font-medium">Sergio</td>
+<td class="py-4 px-6">Pérez</td>
+<td class="py-4 px-6 text-on-surface-variant">1711111111</td>
+<td class="py-4 px-6 text-on-surface-variant">+593 99 111 1111</td>
+<td class="py-4 px-6 text-on-surface-variant">checo@racing.mx</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-lg" data-icon="edit">edit</span></button>
+<button class="text-on-surface-variant hover:text-primary-container"><span class="material-symbols-outlined text-lg" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination (Static representation) -->
+<div class="flex items-center justify-between mt-6 font-label text-xs uppercase tracking-wider text-on-surface-variant">
+<span>MOSTRANDO 1-5 DE 128 REGISTROS</span>
+<div class="flex gap-2">
+<button class="p-2 ghost-border hover:bg-surface-container disabled:opacity-50" disabled=""><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="px-3 py-2 bg-surface-container-high ghost-border">1</button>
+<button class="px-3 py-2 hover:bg-surface-container ghost-border">2</button>
+<button class="px-3 py-2 hover:bg-surface-container ghost-border">3</button>
+<span class="px-2 py-2">...</span>
+<button class="p-2 ghost-border hover:bg-surface-container"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</div>
+</main>
+<!-- Modal Overlay (Hidden by default, shown for demonstration) -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center bg-surface/80 backdrop-blur-[10px] hidden" id="nuevo-cliente-modal">
+<div class="bg-surface-container-low w-full max-w-2xl ghost-border shadow-[0_0_60px_rgba(229,226,225,0.04)]">
+<!-- Modal Header -->
+<div class="px-8 py-6 border-b border-surface-variant/50 flex justify-between items-center bg-surface-container-high racing-stripe">
+<div class="flex items-center gap-3">
+<div class="w-1.5 h-6 bg-primary-container"></div>
+<h3 class="font-headline text-2xl font-bold tracking-tight text-on-surface uppercase">REGISTRO DE PILOTO</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors" onclick="document.getElementById('nuevo-cliente-modal').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body (Form) -->
+<div class="p-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Nombre -->
+<div class="flex flex-col gap-2">
+<label class="font-label text-[10px] font-bold text-on-surface-variant tracking-[0.15em] uppercase">NOMBRE</label>
+<input class="bg-surface border-none border-b-2 border-surface-variant focus:border-primary-container focus:ring-0 text-on-surface font-label text-sm px-4 py-3 outline-none transition-colors w-full placeholder:text-on-surface-variant/30" placeholder="INGRESE NOMBRE" type="text"/>
+</div>
+<!-- Apellido -->
+<div class="flex flex-col gap-2">
+<label class="font-label text-[10px] font-bold text-on-surface-variant tracking-[0.15em] uppercase">APELLIDO</label>
+<input class="bg-surface border-none border-b-2 border-surface-variant focus:border-primary-container focus:ring-0 text-on-surface font-label text-sm px-4 py-3 outline-none transition-colors w-full placeholder:text-on-surface-variant/30" placeholder="INGRESE APELLIDO" type="text"/>
+</div>
+<!-- Cédula -->
+<div class="flex flex-col gap-2">
+<label class="font-label text-[10px] font-bold text-on-surface-variant tracking-[0.15em] uppercase">CÉDULA / PASAPORTE</label>
+<input class="bg-surface border-none border-b-2 border-surface-variant focus:border-primary-container focus:ring-0 text-on-surface font-label text-sm px-4 py-3 outline-none transition-colors w-full placeholder:text-on-surface-variant/30" placeholder="NRO. IDENTIFICACIÓN" type="text"/>
+</div>
+<!-- Teléfono -->
+<div class="flex flex-col gap-2">
+<label class="font-label text-[10px] font-bold text-on-surface-variant tracking-[0.15em] uppercase">TELÉFONO DE CONTACTO</label>
+<input class="bg-surface border-none border-b-2 border-surface-variant focus:border-primary-container focus:ring-0 text-on-surface font-label text-sm px-4 py-3 outline-none transition-colors w-full placeholder:text-on-surface-variant/30" placeholder="+593 99 999 9999" type="tel"/>
+</div>
+<!-- Email -->
+<div class="flex flex-col gap-2 md:col-span-2">
+<label class="font-label text-[10px] font-bold text-on-surface-variant tracking-[0.15em] uppercase">CORREO ELECTRÓNICO</label>
+<input class="bg-surface border-none border-b-2 border-surface-variant focus:border-primary-container focus:ring-0 text-on-surface font-label text-sm px-4 py-3 outline-none transition-colors w-full placeholder:text-on-surface-variant/30" placeholder="PILOTO@EJEMPLO.COM" type="email"/>
+</div>
+<!-- Dirección -->
+<div class="flex flex-col gap-2 md:col-span-2">
+<label class="font-label text-[10px] font-bold text-on-surface-variant tracking-[0.15em] uppercase">DIRECCIÓN BASE</label>
+<input class="bg-surface border-none border-b-2 border-surface-variant focus:border-primary-container focus:ring-0 text-on-surface font-label text-sm px-4 py-3 outline-none transition-colors w-full placeholder:text-on-surface-variant/30" placeholder="DIRECCIÓN COMPLETA" type="text"/>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-8 py-6 border-t border-surface-variant/30 bg-surface-container-highest flex justify-end gap-4">
+<button class="bg-transparent border border-outline-variant/50 text-on-surface font-label text-xs font-bold uppercase tracking-wider py-3 px-6 hover:bg-surface-variant transition-colors" onclick="document.getElementById('nuevo-cliente-modal').classList.add('hidden')">
+                    CANCELAR
+                </button>
+<button class="bg-primary-container text-on-primary-container font-label text-xs font-bold uppercase tracking-wider py-3 px-8 hover:brightness-110 active:scale-[0.98] transition-all duration-150">
+                    GUARDAR DATOS
+                </button>
+</div>
+</div>
+</div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/session-guard.js"></script>
+<script src="/assets/js/clientes.js"></script>
+</body></html>

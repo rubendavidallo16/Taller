@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PADDOCK CMS</title>
+  <meta name="description" content="PADDOCK CMS — Sistema de gestión para taller mecánico de alta performance." />
+
+  <style>
+    /* Pantalla de transición mínima mientras redirige */
+    html, body {
+      margin: 0; padding: 0;
+      background: #0A0A0A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .splash {
+      text-align: center;
+      animation: fade-in 0.3s ease;
+    }
+    .splash__logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #DC2626;
+      letter-spacing: -0.02em;
+    }
+    .splash__sub {
+      font-size: 0.625rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: #3A3A3A;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .splash__dots {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    .splash__dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #DC2626;
+      animation: dot-bounce 1s ease-in-out infinite;
+    }
+    .splash__dot:nth-child(2) { animation-delay: 0.15s; }
+    .splash__dot:nth-child(3) { animation-delay: 0.30s; }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes dot-bounce {
+      0%, 80%, 100% { transform: scaleY(1);   opacity: 0.3; }
+      40%            { transform: scaleY(1.6); opacity: 1;   }
+    }
+  </style>
+
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/auth.js"></script>
+</head>
+<body>
+
+  <!-- Splash mínimo mientras se evalúa la sesión -->
+  <div class="splash">
+    <div class="splash__logo">PADDOCK CMS</div>
+    <div class="splash__sub">Performance Management</div>
+    <div class="splash__dots">
+      <span class="splash__dot"></span>
+      <span class="splash__dot"></span>
+      <span class="splash__dot"></span>
+    </div>
+  </div>
+
+  <script>
+    /* ── Lógica de redirección ──────────────────────────────────
+       Evalúa la sesión JWT y redirige sin dejar historial
+       (replace evita el botón "Atrás" al login).
+       ───────────────────────────────────────────────────────── */
+    if (Auth.isAuthenticated()) {
+      window.location.replace('/pages/dashboard.html');
+    } else {
+      window.location.replace('/pages/login.html');
+    }
+  </script>
+
+</body>
+</html>

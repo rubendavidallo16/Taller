@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Usuarios - Precision Paddock</title>
+<!-- Google Fonts: Space Grotesk & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#ffb4ab",
+                    "inverse-surface": "#e5e2e1",
+                    "secondary-container": "#474649",
+                    "on-secondary-fixed": "#1b1b1d",
+                    "surface-tint": "#ffb4ab",
+                    "secondary": "#c8c6c8",
+                    "on-tertiary-fixed": "#001e30",
+                    "surface-variant": "#353534",
+                    "surface-container-low": "#1c1b1b",
+                    "on-tertiary": "#003450",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-secondary-container": "#b6b4b7",
+                    "on-secondary": "#303032",
+                    "outline-variant": "#5c403c",
+                    "on-tertiary-container": "#f3f8ff",
+                    "on-surface-variant": "#e6bdb8",
+                    "on-error": "#690005",
+                    "on-background": "#e5e2e1",
+                    "on-secondary-fixed-variant": "#474649",
+                    "on-surface": "#e5e2e1",
+                    "surface-container-high": "#2a2a2a",
+                    "surface": "#131313",
+                    "primary-container": "#dc2626",
+                    "on-primary-fixed": "#410002",
+                    "on-primary-container": "#fff6f5",
+                    "on-primary": "#690005",
+                    "surface-container": "#201f1f",
+                    "tertiary-fixed-dim": "#90cdff",
+                    "on-primary-fixed-variant": "#93000b",
+                    "secondary-fixed-dim": "#c8c6c8",
+                    "surface-container-highest": "#353534",
+                    "background": "#131313",
+                    "tertiary-container": "#0078b2",
+                    "secondary-fixed": "#e4e2e4",
+                    "surface-bright": "#3a3939",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed": "#cbe6ff",
+                    "on-tertiary-fixed-variant": "#004b71",
+                    "outline": "#ac8884",
+                    "inverse-primary": "#bf0715",
+                    "surface-dim": "#131313",
+                    "error-container": "#93000a",
+                    "tertiary": "#90cdff",
+                    "inverse-on-surface": "#313030",
+                    "primary-fixed": "#ffdad6",
+                    "primary-fixed-dim": "#ffb4ab"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "0px"
+            },
+            "spacing": {},
+            "fontFamily": {
+                    "headline": [
+                            "Space Grotesk"
+                    ],
+                    "body": [
+                            "Inter"
+                    ],
+                    "label": [
+                            "Inter"
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Racing Stripe Pattern for Hover States */
+        .hover-stripe:hover {
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.02) 10px, rgba(255,255,255,0.02) 20px);
+        }
+    </style>
+</head>
+<body class="bg-[#0A0A0A] text-on-surface font-body overflow-hidden h-screen w-full flex antialiased">
+<!-- Shared Component: SideNavBar -->
+<nav class="bg-[#131313] docked left-0 h-screen w-64 z-40 flex flex-col py-8 flex-shrink-0 relative">
+<!-- Header -->
+<div class="px-6 mb-12">
+<div class="w-12 h-12 bg-surface-container-high mb-4 overflow-hidden border border-outline-variant/15 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container text-2xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<h2 class="font-headline text-xl font-black text-white tracking-tighter leading-none">WORKSHOP_OS</h2>
+<p class="font-headline font-bold uppercase tracking-widest text-[10px] text-[#DC2626] mt-1">RACING_OPERATIONS</p>
+</div>
+<!-- Navigation Tabs -->
+<div class="flex flex-col flex-1 gap-1 px-4">
+<!-- Dashboard (Inactive) -->
+<a class="flex items-center gap-4 px-4 py-3 text-white opacity-40 hover:opacity-100 hover:bg-[#1c1b1b] linear-speed-150ms group" href="#">
+<span class="material-symbols-outlined group-hover:text-[#DC2626] transition-colors">dashboard</span>
+<span class="font-['Space_Grotesk'] font-bold uppercase tracking-widest text-[10px]">Dashboard</span>
+</a>
+<!-- Users (Active) -->
+<a class="flex items-center gap-4 px-4 py-3 text-white bg-[#DC2626] border-l-4 border-white linear-speed-150ms hover-stripe" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-['Space_Grotesk'] font-bold uppercase tracking-widest text-[10px]">Users</span>
+</a>
+<!-- Inventory (Inactive) -->
+<a class="flex items-center gap-4 px-4 py-3 text-white opacity-40 hover:opacity-100 hover:bg-[#1c1b1b] linear-speed-150ms group" href="#">
+<span class="material-symbols-outlined group-hover:text-[#DC2626] transition-colors">inventory_2</span>
+<span class="font-['Space_Grotesk'] font-bold uppercase tracking-widest text-[10px]">Inventory</span>
+</a>
+<!-- Telemetry (Inactive) -->
+<a class="flex items-center gap-4 px-4 py-3 text-white opacity-40 hover:opacity-100 hover:bg-[#1c1b1b] linear-speed-150ms group" href="#">
+<span class="material-symbols-outlined group-hover:text-[#DC2626] transition-colors">monitoring</span>
+<span class="font-['Space_Grotesk'] font-bold uppercase tracking-widest text-[10px]">Telemetry</span>
+</a>
+<!-- Logs (Inactive) -->
+<a class="flex items-center gap-4 px-4 py-3 text-white opacity-40 hover:opacity-100 hover:bg-[#1c1b1b] linear-speed-150ms group" href="#">
+<span class="material-symbols-outlined group-hover:text-[#DC2626] transition-colors">history</span>
+<span class="font-['Space_Grotesk'] font-bold uppercase tracking-widest text-[10px]">Logs</span>
+</a>
+</div>
+<!-- Footer -->
+<div class="px-4 mt-auto">
+<a class="flex items-center gap-4 px-4 py-3 text-white opacity-40 hover:opacity-100 hover:bg-[#1c1b1b] linear-speed-150ms group" href="#">
+<span class="material-symbols-outlined group-hover:text-[#DC2626] transition-colors">logout</span>
+<span class="font-['Space_Grotesk'] font-bold uppercase tracking-widest text-[10px]">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 bg-[#0A0A0A]">
+<!-- Shared Component: TopAppBar -->
+<header class="bg-[#131313] docked full-width top-0 z-50 flex justify-between items-center w-full px-6 h-16 flex-shrink-0 border-b border-[#1c1b1b]">
+<div class="flex items-center">
+<span class="font-['Space_Grotesk'] uppercase tracking-tighter text-2xl font-black text-white tracking-tight">PADDOCK_ADMIN</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Search (implied on right by json, rendering a subtle button) -->
+<button class="text-white opacity-60 hover:text-[#DC2626] hover:opacity-100 transition-colors duration-150">
+<span class="material-symbols-outlined">search</span>
+</button>
+<!-- Trailing Secondary Action -->
+<button class="text-white opacity-60 hover:text-[#DC2626] hover:opacity-100 transition-colors duration-150 flex items-center gap-2">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Space_Grotesk'] uppercase tracking-widest text-[10px] hidden md:inline-block">Settings</span>
+</button>
+<!-- Profile Image -->
+<div class="w-8 h-8 bg-surface-container-highest overflow-hidden border border-outline-variant/20 ml-2">
+<img alt="Admin Avatar" class="w-full h-full object-cover grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-300" data-alt="Close up portrait of a serious racing team manager in a dark paddock, dramatic rim lighting, sharp focus, professional motorsport attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9fiN8ReMfg6q8Oak9eLn13AKDjGVJIH2esjA7C5EPCw1kEZDL0IQSp9dMP5bfxm6IdAGb-etnuPFeWqPTBbvd4qPt3Ih68Ww8cEe71IefBhLHYDgOL_OJQiem4sNoacHCwsmbK9XIWFQNsIHGRqEC9J1g1jjfHkGrzlK-95GbOzhyei8n2ukCAGrFnZNLH7eC1DaowEJ37wi_LjN_TiDaWX7kuhDM4ltfcjXZnwga-NzsxF999-4dK7mK5Tkpvqi3F-k5T4hRiQc"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto p-8 relative">
+<!-- Checkerboard Ambient Texture -->
+<div class="absolute inset-0 opacity-[0.02] pointer-events-none" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="max-w-7xl mx-auto relative z-10">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-10">
+<div class="flex items-center">
+<!-- Red Vertical Accent Stripe -->
+<div class="w-1 h-10 bg-[#DC2626] mr-6"></div>
+<div>
+<h1 class="font-headline font-bold text-5xl tracking-tighter uppercase text-white leading-none">USUARIOS</h1>
+<p class="font-label text-xs uppercase tracking-[0.2em] text-on-surface-variant mt-2">Gestión de Acceso al Paddock</p>
+</div>
+</div>
+<!-- Primary CTA (Generated for context) -->
+<button class="bg-[#DC2626] text-[#fff6f5] px-6 py-3 font-headline font-bold uppercase tracking-widest text-[10px] hover:brightness-110 transition-all duration-150 flex items-center gap-2 hover-stripe">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                        Nuevo Usuario
+                    </button>
+</div>
+<!-- Data Table (Bento/Block Style) -->
+<div class="flex flex-col gap-[2px]">
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 bg-[#1c1b1b] py-4 px-6 items-center">
+<div class="col-span-2 font-headline font-bold uppercase tracking-widest text-[10px] text-on-surface-variant">ID</div>
+<div class="col-span-3 font-headline font-bold uppercase tracking-widest text-[10px] text-on-surface-variant">Nombre</div>
+<div class="col-span-3 font-headline font-bold uppercase tracking-widest text-[10px] text-on-surface-variant">Email</div>
+<div class="col-span-2 font-headline font-bold uppercase tracking-widest text-[10px] text-on-surface-variant">Rol</div>
+<div class="col-span-1 font-headline font-bold uppercase tracking-widest text-[10px] text-on-surface-variant">Estado</div>
+<div class="col-span-1 font-headline font-bold uppercase tracking-widest text-[10px] text-on-surface-variant text-right">Acciones</div>
+</div>
+<!-- Row 1 -->
+<div class="grid grid-cols-12 gap-4 bg-[#131313] py-5 px-6 items-center hover:bg-[#1c1b1b] transition-colors duration-150 group">
+<div class="col-span-2 font-headline text-sm tracking-widest text-on-surface">USR-001</div>
+<div class="col-span-3 font-body font-medium text-white">Juan Pérez</div>
+<div class="col-span-3 font-body text-sm text-on-surface-variant">juan@taller.com</div>
+<div class="col-span-2 flex">
+<span class="bg-[#DC2626] text-[#fff6f5] px-3 py-1 text-[10px] tracking-widest font-bold uppercase">ADMIN</span>
+</div>
+<div class="col-span-1 flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-emerald-500 rounded-none"></div>
+<span class="font-label text-[10px] uppercase tracking-widest text-on-surface">Activo</span>
+</div>
+<div class="col-span-1 flex justify-end gap-3 text-on-surface-variant">
+<button class="hover:text-white transition-colors"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="hover:text-[#DC2626] transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-12 gap-4 bg-[#131313] py-5 px-6 items-center hover:bg-[#1c1b1b] transition-colors duration-150 group">
+<div class="col-span-2 font-headline text-sm tracking-widest text-on-surface">USR-042</div>
+<div class="col-span-3 font-body font-medium text-white">Carlos Sainz</div>
+<div class="col-span-3 font-body text-sm text-on-surface-variant">csainz@taller.com</div>
+<div class="col-span-2 flex">
+<span class="bg-[#2a2a2a] text-on-surface px-3 py-1 text-[10px] tracking-widest font-bold uppercase outline outline-1 outline-[#5c403c]/30">MECÁNICO</span>
+</div>
+<div class="col-span-1 flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-emerald-500 rounded-none"></div>
+<span class="font-label text-[10px] uppercase tracking-widest text-on-surface">Activo</span>
+</div>
+<div class="col-span-1 flex justify-end gap-3 text-on-surface-variant">
+<button class="hover:text-white transition-colors"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="hover:text-[#DC2626] transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-12 gap-4 bg-[#131313] py-5 px-6 items-center hover:bg-[#1c1b1b] transition-colors duration-150 group">
+<div class="col-span-2 font-headline text-sm tracking-widest text-on-surface opacity-50">USR-088</div>
+<div class="col-span-3 font-body font-medium text-white opacity-50">Elena Rodríguez</div>
+<div class="col-span-3 font-body text-sm text-on-surface-variant opacity-50">erodriguez@taller.com</div>
+<div class="col-span-2 flex opacity-50">
+<span class="bg-[#2a2a2a] text-on-surface px-3 py-1 text-[10px] tracking-widest font-bold uppercase outline outline-1 outline-[#5c403c]/30">MECÁNICO</span>
+</div>
+<div class="col-span-1 flex items-center gap-2 opacity-50">
+<div class="w-1.5 h-1.5 bg-red-800 rounded-none"></div>
+<span class="font-label text-[10px] uppercase tracking-widest text-on-surface">Inactivo</span>
+</div>
+<div class="col-span-1 flex justify-end gap-3 text-on-surface-variant">
+<button class="hover:text-white transition-colors"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="hover:text-[#DC2626] transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-12 gap-4 bg-[#131313] py-5 px-6 items-center hover:bg-[#1c1b1b] transition-colors duration-150 group">
+<div class="col-span-2 font-headline text-sm tracking-widest text-on-surface">USR-104</div>
+<div class="col-span-3 font-body font-medium text-white">Marc Márquez</div>
+<div class="col-span-3 font-body text-sm text-on-surface-variant">mmarquez@taller.com</div>
+<div class="col-span-2 flex">
+<span class="bg-[#DC2626] text-[#fff6f5] px-3 py-1 text-[10px] tracking-widest font-bold uppercase">ADMIN</span>
+</div>
+<div class="col-span-1 flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-emerald-500 rounded-none"></div>
+<span class="font-label text-[10px] uppercase tracking-widest text-on-surface">Activo</span>
+</div>
+<div class="col-span-1 flex justify-end gap-3 text-on-surface-variant">
+<button class="hover:text-white transition-colors"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="hover:text-[#DC2626] transition-colors"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</div>
+</div>
+</div>
+<!-- Pagination / Footer Metadata -->
+<div class="mt-6 flex justify-between items-center border-t border-outline-variant/10 pt-4">
+<span class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Mostrando 4 de 12 registros</span>
+<div class="flex gap-2">
+<button class="bg-[#1c1b1b] text-white px-3 py-2 hover:bg-[#2a2a2a] transition-colors flex items-center disabled:opacity-30">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="bg-[#1c1b1b] text-white px-3 py-2 hover:bg-[#2a2a2a] transition-colors flex items-center">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/session-guard.js"></script>
+<script src="/assets/js/usuarios.js"></script>
+</body></html>

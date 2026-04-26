@@ -1,0 +1,635 @@
+/* =============================================================
+   PADDOCK CMS — components.css
+   Estilos de componentes que complementan global.css.
+   ============================================================= */
+
+/* =====================================================
+   1. SIDEBAR
+   ===================================================== */
+.sidebar-brand {
+  padding: 1.5rem;
+  border-bottom: 1px solid #3A3A3A;
+  flex-shrink: 0;
+}
+
+.sidebar-logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #DC2626;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.sidebar-subtitle {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #52525B;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  color: #A1A1AA;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.nav-item:hover {
+  color: #FFFFFF;
+  background: #2A2A2A;
+}
+
+.nav-item--active {
+  color: #FFFFFF;
+  background: #DC2626;
+}
+
+.nav-item--active:hover {
+  background: #B91C1C;
+}
+
+.nav-item svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Indicador lateral del ítem activo */
+.nav-item--active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 0 2px 2px 0;
+}
+
+.sidebar-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #3A3A3A;
+  flex-shrink: 0;
+}
+
+.sidebar-user {
+  font-size: 0.75rem;
+  color: #A1A1AA;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+}
+
+.sidebar-user strong {
+  color: #FFFFFF;
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =====================================================
+   2. STAT CARDS — Dashboard
+   ===================================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1200px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
+
+.stat-card {
+  background: #1C1C1E;
+  border: 1px solid #3A3A3A;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border-left: 3px solid #DC2626;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Decorativo de fondo */
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(220, 38, 38, 0.04);
+  pointer-events: none;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #52525B;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.stat-extra {
+  font-size: 0.75rem;
+  color: #A1A1AA;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stat-extra.positive { color: #16A34A; }
+.stat-extra.negative { color: #DC2626; }
+
+/* Skeleton loader para stat cards */
+.stat-card.loading .stat-value,
+.stat-card.loading .stat-extra {
+  background: #2A2A2A;
+  color: transparent;
+  border-radius: 4px;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+.stat-card.loading .stat-value {
+  width: 80px;
+  height: 2rem;
+}
+.stat-card.loading .stat-extra {
+  width: 120px;
+  height: 0.875rem;
+  margin-top: 0.75rem;
+}
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* =====================================================
+   3. TABS — Servicios / Repuestos
+   ===================================================== */
+.tabs-wrapper {
+  display: flex;
+  border-bottom: 1px solid #3A3A3A;
+  margin-bottom: 1.5rem;
+  gap: 0;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  color: #52525B;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.15s ease;
+  margin-bottom: -1px;
+}
+
+.tab-btn:hover { color: #A1A1AA; }
+
+.tab-btn.active { color: #FFFFFF; }
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #DC2626;
+  border-radius: 2px 2px 0 0;
+}
+
+/* =====================================================
+   4. PROGRESS BAR DE ESTADOS — Órdenes
+   ===================================================== */
+.order-progress {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+}
+
+.progress-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #3A3A3A;
+  border: 2px solid #3A3A3A;
+  transition: all 0.2s ease;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.progress-dot.done {
+  background: #52525B;
+  border-color: #52525B;
+}
+
+.progress-dot.active {
+  background: #DC2626;
+  border-color: #DC2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
+  width: 14px;
+  height: 14px;
+}
+
+.progress-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #52525B;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.progress-label.done   { color: #71717A; }
+.progress-label.active { color: #FFFFFF; }
+
+/* Línea conectora entre pasos */
+.progress-line {
+  flex: 1;
+  height: 2px;
+  background: #2A2A2A;
+  margin: 0 -6px;
+  margin-bottom: 18px; /* alinea con los dots */
+  flex-shrink: 0;
+}
+
+.progress-line.done { background: #52525B; }
+
+/* =====================================================
+   5. PANEL DE DETALLE DE ORDEN
+   ===================================================== */
+.detail-panel {
+  background: #1C1C1E;
+  border: 1px solid #3A3A3A;
+  border-radius: 8px;
+  padding: 1.5rem;
+  min-width: 300px;
+}
+
+.detail-id {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  border-left: 3px solid #DC2626;
+  padding-left: 0.75rem;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.detail-subtitle {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #52525B;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+  padding-left: 0.875rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.detail-field label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #52525B;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.detail-field span {
+  font-size: 0.875rem;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.detail-total {
+  text-align: right;
+  padding-top: 1rem;
+  border-top: 1px solid #3A3A3A;
+  margin-top: 1rem;
+}
+
+.detail-total-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #52525B;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.detail-total-value {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+/* =====================================================
+   6. TOAST NOTIFICATIONS
+   ===================================================== */
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 0.875rem 1.25rem;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-left: 4px solid transparent;
+  animation: toast-slide-in 0.2s ease forwards;
+  pointer-events: auto;
+  min-width: 240px;
+  max-width: 360px;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.toast.fade-out {
+  animation: toast-slide-out 0.25s ease forwards;
+}
+
+.toast.success {
+  background: #14532D;
+  border-color: #16A34A;
+  color: #86EFAC;
+}
+
+.toast.error {
+  background: #450A0A;
+  border-color: #DC2626;
+  color: #FCA5A5;
+}
+
+.toast.warning {
+  background: #431407;
+  border-color: #D97706;
+  color: #FCD34D;
+}
+
+@keyframes toast-slide-in {
+  from {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-slide-out {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+}
+
+/* =====================================================
+   7. CONFIRM MODAL
+   ===================================================== */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: confirm-fade-in 0.15s ease;
+}
+
+@keyframes confirm-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.confirm-modal {
+  background: #1C1C1E;
+  border: 1px solid #3A3A3A;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  animation: confirm-slide-up 0.2s ease;
+}
+
+@keyframes confirm-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.confirm-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  border-left: 3px solid #DC2626;
+  padding-left: 0.75rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.confirm-message {
+  font-size: 0.875rem;
+  color: #A1A1AA;
+  margin-bottom: 1.5rem;
+  line-height: 1.65;
+  padding-left: 0.875rem;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+/* =====================================================
+   8. UTILIDADES ADICIONALES
+   ===================================================== */
+
+/* Skeleton genérico */
+.skeleton {
+  background: linear-gradient(90deg, #2A2A2A 25%, #3A3A3A 50%, #2A2A2A 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: 4px;
+  color: transparent !important;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Divider con texto */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  color: #52525B;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #3A3A3A;
+}
+
+/* Indicador de carga inline */
+.loading-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #3A3A3A;
+  border-top-color: #DC2626;
+  border-radius: 50%;
+  animation: spinner-rotate 0.7s linear infinite;
+}
+
+@keyframes spinner-rotate {
+  to { transform: rotate(360deg); }
+}
+
+/* Row hover mejorado para tablas con panel activo */
+.data-table tbody tr.row-active {
+  background: rgba(220, 38, 38, 0.06) !important;
+  outline: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+/* =====================================================
+   9. RESPONSIVE — Ajustes para pantallas pequeñas
+   ===================================================== */
+@media (max-width: 960px) {
+  .layout-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    display: none; /* En móvil el sidebar se oculta */
+  }
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}
+
+/* =====================================================
+   10. SESSION INDICATOR
+   ===================================================== */
+.session-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #86EFAC;
+}
+.session-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16A34A;
+  flex-shrink: 0;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}

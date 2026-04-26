@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Órdenes de Trabajo - Precision Paddock</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed": "#ffdad6",
+                        "on-secondary-fixed-variant": "#474649",
+                        "on-primary-fixed": "#410002",
+                        "tertiary": "#90cdff",
+                        "surface-container": "#201f1f",
+                        "outline-variant": "#5c403c",
+                        "inverse-on-surface": "#313030",
+                        "tertiary-fixed": "#cbe6ff",
+                        "on-tertiary-fixed-variant": "#004b71",
+                        "primary-container": "#dc2626",
+                        "on-secondary-fixed": "#1b1b1d",
+                        "on-background": "#e5e2e1",
+                        "inverse-primary": "#bf0715",
+                        "surface": "#131313",
+                        "secondary-fixed": "#e4e2e4",
+                        "background": "#131313",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-highest": "#353534",
+                        "surface-bright": "#3a3939",
+                        "on-primary": "#690005",
+                        "on-primary-container": "#fff6f5",
+                        "on-tertiary-container": "#f3f8ff",
+                        "tertiary-container": "#0078b2",
+                        "primary-fixed-dim": "#ffb4ab",
+                        "inverse-surface": "#e5e2e1",
+                        "on-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#003450",
+                        "surface-dim": "#131313",
+                        "secondary": "#c8c6c8",
+                        "surface-variant": "#353534",
+                        "error": "#ffb4ab",
+                        "secondary-container": "#474649",
+                        "primary": "#ffb4ab",
+                        "outline": "#ac8884",
+                        "on-primary-fixed-variant": "#93000b",
+                        "surface-tint": "#ffb4ab",
+                        "secondary-fixed-dim": "#c8c6c8",
+                        "on-secondary": "#303032",
+                        "on-surface-variant": "#e6bdb8",
+                        "on-error": "#690005",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#001e30",
+                        "on-secondary-container": "#b6b4b7",
+                        "tertiary-fixed-dim": "#90cdff",
+                        "surface-container-lowest": "#0e0e0e"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .ghost-border { border: 1px solid rgba(92, 64, 60, 0.15); }
+        .glass-panel { background: rgba(42, 42, 42, 0.8); backdrop-filter: blur(20px); }
+        .paddock-stripe { background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(220, 38, 38, 0.1) 10px, rgba(220, 38, 38, 0.1) 20px); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body h-screen flex overflow-hidden selection:bg-primary-container selection:text-white">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full border-r border-white/5 bg-[#131313] dark:bg-neutral-950 w-64 left-0 flex-shrink-0 z-20">
+<div class="p-6">
+<h1 class="font-headline text-red-600 font-black tracking-tighter text-2xl">STRAT_OS</h1>
+<p class="font-headline tracking-widest text-xs font-bold text-zinc-500 mt-1">V8_HYBRID_CORE</p>
+</div>
+<div class="px-4 py-4">
+<button class="w-full bg-primary-container text-on-primary-container font-headline font-bold py-3 uppercase tracking-wider hover:brightness-110 transition-colors duration-150 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+                NEW_ORDER
+            </button>
+</div>
+<div class="flex-1 mt-6 overflow-y-auto">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-6 py-3 text-zinc-400 hover:bg-zinc-800/50 font-headline tracking-widest text-xs font-bold transition-all duration-200" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+                        DASHBOARD
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 bg-red-600 text-white font-black border-l-4 border-white font-headline tracking-widest text-xs transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">build</span>
+                        WORK_ORDERS
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 text-zinc-400 hover:bg-zinc-800/50 font-headline tracking-widest text-xs font-bold transition-all duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                        INVENTORY
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 text-zinc-400 hover:bg-zinc-800/50 font-headline tracking-widest text-xs font-bold transition-all duration-200" href="#">
+<span class="material-symbols-outlined">speed</span>
+                        TELEMETRY
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 text-zinc-400 hover:bg-zinc-800/50 font-headline tracking-widest text-xs font-bold transition-all duration-200" href="#">
+<span class="material-symbols-outlined">groups</span>
+                        TEAM
+                    </a>
+</li>
+</ul>
+</div>
+<div class="p-6 mt-auto border-t ghost-border">
+<ul class="space-y-4">
+<li>
+<a class="flex items-center gap-3 text-zinc-400 hover:text-white font-headline tracking-widest text-xs font-bold transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">terminal</span>
+                        SYSTEM_STATUS
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-zinc-400 hover:text-white font-headline tracking-widest text-xs font-bold transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">logout</span>
+                        LOG_OUT
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- TopNavBar (Mobile Only for Navigation, Web for Header Info) -->
+<header class="flex justify-between items-center w-full px-6 border-l-4 border-red-600 bg-[#131313] dark:bg-neutral-950 docked w-full top-0 h-16 flex-shrink-0 z-10 md:border-l-0 border-b border-white/5">
+<div class="flex items-center md:hidden">
+<h1 class="text-2xl font-black italic text-[#DC2626] dark:text-red-600 font-headline">PADDOCK_OPS</h1>
+</div>
+<div class="hidden md:flex gap-6 items-center">
+<span class="text-[#DC2626] dark:text-red-600 font-headline font-bold uppercase tracking-tighter text-sm">PADDOCK_OPS</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm">search</span>
+<input class="bg-surface-container-high text-white text-xs font-label uppercase tracking-widest pl-9 pr-3 py-1.5 focus:outline-none focus:border-b-2 focus:border-primary-container w-48 transition-all ghost-border" placeholder="QUERY..." type="text"/>
+</div>
+<button class="text-zinc-500 hover:text-zinc-300 mechanical-click active:scale-95 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-zinc-500 hover:text-zinc-300 mechanical-click active:scale-95 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 bg-surface-container-highest overflow-hidden border border-zinc-700 ml-2">
+<img alt="Chief Mechanic Profile" class="w-full h-full object-cover grayscale" data-alt="High contrast black and white portrait of a mechanic wearing a cap looking intensely forward" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsMzerd7G5MmSKRc-ufu_RZ5yL9lpIsDEzIrC7UptV8gOJqKlzJ1vnJ2YOVXckfUFB7b8EY96AANyfgILaf98cISGpo-fsD-daYXtYY5FL6SxOcPMDAiQpGlDsx65Oj9DC8O3U6NZC-9n2mmoGy7UlNQKrvjOLh1I116idPkyr8TtiI0Rc_O5yTtZvJz6ir8n-a4hdaU-8JYLORgcGQDag25NuHa_kX6ng1HPd7xBY5_ryXdP_NrnKtRyqANsNV-QewncT18qMnCM"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-auto bg-surface-container-low p-6 md:p-8 flex flex-col gap-6 relative">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-l-2 border-primary-container pl-4">
+<div>
+<h2 class="font-headline text-4xl md:text-5xl font-black tracking-tighter uppercase leading-none">Órdenes de Trabajo</h2>
+<p class="font-label text-sm text-zinc-400 mt-2 uppercase tracking-[0.2em]">Gestión Operativa de Taller</p>
+</div>
+</div>
+<!-- Dashboard Content Placeholder (Bento Grid Style) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1">
+<!-- Main Table Area (Span 2 cols on lg) -->
+<div class="lg:col-span-2 flex flex-col gap-4">
+<!-- Filters -->
+<div class="flex flex-wrap gap-3 p-4 bg-surface-container ghost-border items-center">
+<div class="relative">
+<select class="bg-surface-container-highest text-white text-xs font-label uppercase tracking-widest pl-3 pr-8 py-2 appearance-none focus:outline-none focus:border-b-2 focus:border-primary-container ghost-border">
+<option>ESTADO: TODOS</option>
+<option>RECIBIDO</option>
+<option>EN_PROCESO</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none">arrow_drop_down</span>
+</div>
+<div class="relative flex-1 min-w-[200px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm">search</span>
+<input class="w-full bg-surface-container-highest text-white text-xs font-label uppercase tracking-widest pl-9 pr-3 py-2 focus:outline-none focus:border-b-2 focus:border-primary-container ghost-border" placeholder="BUSCAR CLIENTE O VEHÍCULO..." type="text"/>
+</div>
+</div>
+<!-- Data List (List layout requested to be avoided, but it's a data table requirement. Implementing a modern dense list) -->
+<div class="bg-surface-container border-t-2 border-primary-container ghost-border flex-1 overflow-auto">
+<div class="grid grid-cols-12 gap-4 p-4 border-b border-white/5 font-headline text-xs font-bold text-zinc-500 uppercase tracking-widest">
+<div class="col-span-2">ID</div>
+<div class="col-span-3">Vehículo</div>
+<div class="col-span-3">Estado</div>
+<div class="col-span-4 text-right">Acción</div>
+</div>
+<!-- Row 1 -->
+<div class="grid grid-cols-12 gap-4 p-4 items-center border-b border-white/5 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="col-span-2 font-headline font-bold text-sm">#WO-9021</div>
+<div class="col-span-3 font-label text-sm text-zinc-300">Porsche 911 GT3 RS</div>
+<div class="col-span-3 flex items-center gap-2">
+<div class="w-2 h-2 bg-amber-500"></div>
+<span class="font-label text-xs uppercase tracking-widest text-amber-500">EN_PROCESO</span>
+</div>
+<div class="col-span-4 flex justify-end gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
+<button class="text-zinc-400 hover:text-white p-1"><span class="material-symbols-outlined text-lg">visibility</span></button>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-12 gap-4 p-4 items-center border-b border-white/5 hover:bg-surface-container-high transition-colors cursor-pointer group bg-surface-container-high">
+<div class="col-span-2 font-headline font-bold text-sm">#WO-9022</div>
+<div class="col-span-3 font-label text-sm text-zinc-300">McLaren 720S</div>
+<div class="col-span-3 flex items-center gap-2">
+<div class="w-2 h-2 bg-zinc-500"></div>
+<span class="font-label text-xs uppercase tracking-widest text-zinc-400">RECIBIDO</span>
+</div>
+<div class="col-span-4 flex justify-end gap-2 opacity-100">
+<button class="text-white hover:text-primary-container p-1"><span class="material-symbols-outlined text-lg">visibility</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Panel (Details) -->
+<div class="bg-surface-container-high p-6 ghost-border flex flex-col gap-6 relative overflow-hidden">
+<!-- Decor pattern -->
+<div class="absolute top-0 right-0 w-32 h-32 paddock-stripe opacity-50 pointer-events-none"></div>
+<div class="border-l-2 border-primary-container pl-3 z-10">
+<h3 class="font-headline text-2xl font-bold tracking-tighter">#WO-9022</h3>
+<p class="font-label text-xs text-zinc-400 uppercase tracking-widest mt-1">Detalle de Orden</p>
+</div>
+<div class="grid grid-cols-2 gap-4 font-label text-sm z-10">
+<div class="bg-surface-container p-3 ghost-border">
+<span class="text-zinc-500 text-xs uppercase block mb-1">Cliente</span>
+<span class="text-white">A. Senna</span>
+</div>
+<div class="bg-surface-container p-3 ghost-border">
+<span class="text-zinc-500 text-xs uppercase block mb-1">Ingreso</span>
+<span class="text-white font-mono">14.10.23</span>
+</div>
+</div>
+<!-- Progress Stepper (Racing Style) -->
+<div class="mt-4 z-10">
+<span class="font-headline text-xs font-bold text-zinc-500 uppercase tracking-widest block mb-2">Progreso</span>
+<div class="h-2 w-full bg-surface-container-lowest flex">
+<div class="h-full bg-primary-container w-1/4"></div>
+</div>
+<div class="flex justify-between text-[10px] font-label uppercase text-zinc-500 mt-1 tracking-widest">
+<span class="text-white">RECIBIDO</span>
+<span>PROCESO</span>
+<span>FIN</span>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-white/10 z-10">
+<button class="w-full bg-transparent border border-primary-container text-primary-container font-headline font-bold py-3 uppercase tracking-wider hover:bg-primary-container hover:text-white transition-all duration-200">
+                            VER TELEMETRÍA
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/session-guard.js"></script>
+<script src="/assets/js/ordenes.js"></script>
+</body></html>

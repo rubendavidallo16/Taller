@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Paddock CMS - Servicios</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-container": "#b6b4b7",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#90cdff",
+                      "surface-container-lowest": "#0e0e0e",
+                      "secondary-fixed-dim": "#c8c6c8",
+                      "surface-container-highest": "#353534",
+                      "on-secondary": "#303032",
+                      "primary-fixed": "#ffdad6",
+                      "on-secondary-fixed": "#1b1b1d",
+                      "primary-fixed-dim": "#ffb4ab",
+                      "on-primary-container": "#fff6f5",
+                      "error-container": "#93000a",
+                      "surface-container-high": "#2a2a2a",
+                      "on-tertiary-fixed": "#001e30",
+                      "primary": "#ffb4ab",
+                      "outline-variant": "#5c403c",
+                      "tertiary": "#90cdff",
+                      "surface-bright": "#3a3939",
+                      "surface-container": "#201f1f",
+                      "on-surface-variant": "#e6bdb8",
+                      "secondary-container": "#474649",
+                      "tertiary-fixed": "#cbe6ff",
+                      "on-error": "#690005",
+                      "secondary-fixed": "#e4e2e4",
+                      "inverse-primary": "#bf0715",
+                      "on-tertiary": "#003450",
+                      "surface-variant": "#353534",
+                      "on-surface": "#e5e2e1",
+                      "on-secondary-fixed-variant": "#474649",
+                      "surface-dim": "#131313",
+                      "surface-container-low": "#1c1b1b",
+                      "secondary": "#c8c6c8",
+                      "primary-container": "#dc2626",
+                      "surface": "#131313",
+                      "on-tertiary-container": "#f3f8ff",
+                      "on-background": "#e5e2e1",
+                      "inverse-on-surface": "#313030",
+                      "surface-tint": "#ffb4ab",
+                      "inverse-surface": "#e5e2e1",
+                      "on-primary-fixed": "#410002",
+                      "tertiary-container": "#0078b2",
+                      "on-tertiary-fixed-variant": "#004b71",
+                      "error": "#ffb4ab",
+                      "background": "#131313",
+                      "on-primary": "#690005",
+                      "outline": "#ac8884",
+                      "on-primary-fixed-variant": "#93000b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": [
+                              "Space Grotesk"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "label": [
+                              "Inter"
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .ghost-border { border: 1px solid rgba(92, 64, 60, 0.15); }
+        .glass-panel { background-color: rgba(42, 42, 42, 0.85); backdrop-filter: blur(20px); }
+        .paddock-stripe { background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(220, 38, 38, 0.05) 10px, rgba(220, 38, 38, 0.05) 20px); }
+      </style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="h-screen w-64 flex flex-col fixed left-0 top-0 z-40 bg-zinc-900 dark:bg-[#1c1b1b] border-none">
+<div class="px-6 py-8">
+<h1 class="font-['Space_Grotesk'] tracking-tighter uppercase font-bold text-2xl font-black text-[#DC2626]">PADDOCK CMS</h1>
+<p class="text-xs text-zinc-500 font-bold uppercase tracking-[0.2em] mt-1">PERFORMANCE MGMT</p>
+</div>
+<div class="flex-1 flex flex-col gap-1 mt-4">
+<a class="flex items-center gap-3 px-6 py-4 text-zinc-500 hover:bg-[#2a2a2a] hover:text-white transition-colors duration-150 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-bold text-sm tracking-widest uppercase">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-zinc-500 hover:bg-[#2a2a2a] hover:text-white transition-colors duration-150 transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-bold text-sm tracking-widest uppercase">Clientes</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-zinc-500 hover:bg-[#2a2a2a] hover:text-white transition-colors duration-150 transition-all" href="#">
+<span class="material-symbols-outlined">directions_car</span>
+<span class="font-bold text-sm tracking-widest uppercase">Vehículos</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-zinc-500 hover:bg-[#2a2a2a] hover:text-white transition-colors duration-150 transition-all" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-bold text-sm tracking-widest uppercase">Órdenes de Trabajo</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-white bg-[#2a2a2a] border-l-4 border-[#DC2626] transition-all duration-150 paddock-stripe" href="#">
+<span class="material-symbols-outlined">build</span>
+<span class="font-bold text-sm tracking-widest uppercase">Servicios</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-zinc-500 hover:bg-[#2a2a2a] hover:text-white transition-colors duration-150 transition-all" href="#">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="font-bold text-sm tracking-widest uppercase">Repuestos</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-zinc-500 hover:bg-[#2a2a2a] hover:text-white transition-colors duration-150 transition-all mt-auto mb-4" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-bold text-sm tracking-widest uppercase">Usuarios</span>
+</a>
+</div>
+</nav>
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-8 w-[calc(100%-16rem)] ml-64 h-16 sticky top-0 z-30 bg-zinc-950 dark:bg-[#131313] border-b border-white/10">
+<div class="flex items-center gap-4 w-1/3">
+<!-- Search on left -->
+<div class="relative w-full max-w-md ghost-border flex items-center bg-surface-container-highest">
+<span class="material-symbols-outlined text-zinc-500 pl-3">search</span>
+<input class="w-full bg-transparent border-none text-white text-sm font-bold tracking-widest uppercase focus:ring-0 placeholder:text-zinc-600 py-2" placeholder="BUSCAR..." type="text"/>
+</div>
+</div>
+<div class="flex items-center justify-center w-1/3">
+<span class="font-['Space_Grotesk'] font-bold tracking-tight text-xl font-black text-white italic tracking-tighter">PADDOCK CMS</span>
+</div>
+<div class="flex items-center gap-6 justify-end w-1/3">
+<button class="text-zinc-400 hover:text-white transition-colors linear ease-in-out 150ms">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-zinc-400 hover:text-white transition-colors linear ease-in-out 150ms">
+<span class="material-symbols-outlined">logout</span>
+</button>
+<div class="w-8 h-8 bg-surface-container-highest ghost-border overflow-hidden">
+<img alt="Chief Engineer" class="w-full h-full object-cover grayscale opacity-80" data-alt="Black and white portrait of a mechanical engineer looking focused, harsh lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGVIIuwRCpEhn9zQJyg9k4menoHRpj6xmA03Vp61y1Ol8IGDmBnLJon86v4E2G69Z7k1HRAz0jqxTrRlC-6aHIbNSvlbriZ5sT8a0ZnT_w777FL5sp2HmAcEXNSVPpfrjo0s67hOheckNZ2eJMkd8uXFq0re0JjFctpqFwl8IXBvETaTlpO5EF2HuDrpOAZC0HEaLgxGPP_pum0i8_ma1X5wHyytJCKnYnYEz9wWr9nZqCbXMofA-SJR-CoEJ6mFP876w4wE7413w"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-8 h-[calc(100vh-4rem)] overflow-y-auto">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-8">
+<div class="flex items-center gap-4">
+<div class="h-12 w-2 bg-primary-container"></div>
+<h2 class="font-headline text-4xl font-bold tracking-tighter uppercase flex items-center gap-3">
+<span class="material-symbols-outlined text-4xl text-primary-container">build</span>
+                    SERVICIOS Y REPUESTOS
+                </h2>
+</div>
+<button class="bg-primary-container hover:bg-primary-container/90 text-on-primary-container font-bold text-sm tracking-widest uppercase px-6 py-3 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+                Nuevo Servicio
+            </button>
+</div>
+<!-- Tabs Navigation -->
+<div class="flex border-b border-surface-container-highest mb-8">
+<button class="px-8 py-4 font-headline text-lg font-bold tracking-widest uppercase border-b-2 border-primary-container text-white bg-surface-container-low">
+                SERVICIOS
+            </button>
+<button class="px-8 py-4 font-headline text-lg font-bold tracking-widest uppercase border-b-2 border-transparent text-zinc-500 hover:text-white hover:bg-surface-container-lowest transition-colors">
+                REPUESTOS
+            </button>
+</div>
+<!-- Data Table Container (Tonal Layering) -->
+<div class="bg-surface-container-low p-6">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-highest text-xs text-zinc-400 uppercase tracking-[0.15em] font-bold">
+<th class="py-4 px-4 font-normal">ID</th>
+<th class="py-4 px-4 font-normal">Nombre del Servicio</th>
+<th class="py-4 px-4 font-normal">Descripción</th>
+<th class="py-4 px-4 font-normal">Precio Base</th>
+<th class="py-4 px-4 font-normal text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="text-sm font-medium">
+<!-- Row 1 -->
+<tr class="border-b border-surface-bright/20 hover:bg-surface-container-highest/50 transition-colors group">
+<td class="py-4 px-4 text-zinc-500 font-mono">SRV-001</td>
+<td class="py-4 px-4 text-white uppercase tracking-wider font-bold">Alineación y Balanceo</td>
+<td class="py-4 px-4 text-zinc-400 max-w-xs truncate">Ajuste de geometría de suspensión y balanceo de 4 ruedas en máquina computarizada.</td>
+<td class="py-4 px-4 text-white font-mono">$85.00</td>
+<td class="py-4 px-4 text-right">
+<button class="text-zinc-500 hover:text-primary-container transition-colors p-2">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="text-zinc-500 hover:text-primary-container transition-colors p-2">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-surface-bright/20 hover:bg-surface-container-highest/50 transition-colors group">
+<td class="py-4 px-4 text-zinc-500 font-mono">SRV-002</td>
+<td class="py-4 px-4 text-white uppercase tracking-wider font-bold">Cambio de Aceite Sintético</td>
+<td class="py-4 px-4 text-zinc-400 max-w-xs truncate">Reemplazo de aceite motor (hasta 5L sintético) y filtro de aceite estándar.</td>
+<td class="py-4 px-4 text-white font-mono">$120.00</td>
+<td class="py-4 px-4 text-right">
+<button class="text-zinc-500 hover:text-primary-container transition-colors p-2">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="text-zinc-500 hover:text-primary-container transition-colors p-2">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-surface-bright/20 hover:bg-surface-container-highest/50 transition-colors group">
+<td class="py-4 px-4 text-zinc-500 font-mono">SRV-003</td>
+<td class="py-4 px-4 text-white uppercase tracking-wider font-bold">Diagnóstico Scanner Avanzado</td>
+<td class="py-4 px-4 text-zinc-400 max-w-xs truncate">Lectura de códigos OBD2, flujo de datos en vivo y reseteo de módulos electrónicos.</td>
+<td class="py-4 px-4 text-white font-mono">$65.00</td>
+<td class="py-4 px-4 text-right">
+<button class="text-zinc-500 hover:text-primary-container transition-colors p-2">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="text-zinc-500 hover:text-primary-container transition-colors p-2">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-surface-bright/20 hover:bg-surface-container-highest/50 transition-colors group">
+<td class="py-4 px-4 text-zinc-500 font-mono">SRV-004</td>
+<td class="py-4 px-4 text-white uppercase tracking-wider font-bold">Revisión de Frenos Completos</td>
+<td class="py-4 px-4 text-zinc-400 max-w-xs truncate">Inspección visual y medición de espesor de pastillas, discos, zapatas y tambores.</td>
+<td class="py-4 px-4 text-white font-mono">$45.00</td>
+<td class="py-4 px-4 text-right">
+<button class="text-zinc-500 hover:text-primary-container transition-colors p-2">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="text-zinc-500 hover:text-primary-container transition-colors p-2">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="mt-6 flex justify-between items-center text-xs text-zinc-500 font-bold uppercase tracking-widest">
+<span>MOSTRANDO 1-4 DE 24 REGISTROS</span>
+<div class="flex gap-2">
+<button class="bg-surface-container-highest px-3 py-2 hover:text-white transition-colors">ANT</button>
+<button class="bg-surface-container-highest px-3 py-2 text-white bg-primary-container/20 border-b-2 border-primary-container">1</button>
+<button class="bg-surface-container-highest px-3 py-2 hover:text-white transition-colors">2</button>
+<button class="bg-surface-container-highest px-3 py-2 hover:text-white transition-colors">3</button>
+<button class="bg-surface-container-highest px-3 py-2 hover:text-white transition-colors">SIG</button>
+</div>
+</div>
+</div>
+</main>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/session-guard.js"></script>
+<script src="/assets/js/servicios.js"></script>
+</body></html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Taller Racing - Login</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed-dim": "#90cdff",
+            "surface-tint": "#ffb4ab",
+            "outline": "#ac8884",
+            "error": "#ffb4ab",
+            "on-error": "#690005",
+            "secondary": "#c8c6c8",
+            "on-secondary-fixed-variant": "#474649",
+            "secondary-fixed-dim": "#c8c6c8",
+            "surface-dim": "#131313",
+            "primary-fixed": "#ffdad6",
+            "on-primary-fixed-variant": "#93000b",
+            "surface-container-highest": "#353534",
+            "background": "#131313",
+            "on-tertiary-fixed": "#001e30",
+            "error-container": "#93000a",
+            "on-surface": "#e5e2e1",
+            "inverse-on-surface": "#313030",
+            "tertiary-container": "#0078b2",
+            "surface-container-high": "#2a2a2a",
+            "tertiary-fixed": "#cbe6ff",
+            "tertiary": "#90cdff",
+            "on-background": "#e5e2e1",
+            "inverse-primary": "#bf0715",
+            "surface-container-low": "#1c1b1b",
+            "on-primary-container": "#fff6f5",
+            "on-primary": "#690005",
+            "on-error-container": "#ffdad6",
+            "surface-bright": "#3a3939",
+            "on-tertiary": "#003450",
+            "surface-variant": "#353534",
+            "on-secondary": "#303032",
+            "on-secondary-container": "#b6b4b7",
+            "primary": "#ffb4ab",
+            "surface-container-lowest": "#0e0e0e",
+            "primary-fixed-dim": "#ffb4ab",
+            "on-secondary-fixed": "#1b1b1d",
+            "secondary-container": "#474649",
+            "outline-variant": "#5c403c",
+            "primary-container": "#dc2626",
+            "on-tertiary-fixed-variant": "#004b71",
+            "surface-container": "#201f1f",
+            "surface": "#131313",
+            "inverse-surface": "#e5e2e1",
+            "secondary-fixed": "#e4e2e4",
+            "on-tertiary-container": "#f3f8ff",
+            "on-surface-variant": "#e6bdb8",
+            "on-primary-fixed": "#410002"
+          },
+          "borderRadius": {
+            "DEFAULT": "0",
+            "lg": "0",
+            "xl": "0",
+            "full": "0"
+          },
+          "spacing": {},
+          "fontFamily": {
+            "headline": [
+              "Space Grotesk", "sans-serif"
+            ],
+            "body": [
+              "Inter", "sans-serif"
+            ],
+            "label": [
+              "Inter", "sans-serif"
+            ]
+          }
+        },
+      },
+    }
+  </script>
+  <style>
+    .checkerboard {
+      background-image:
+        linear-gradient(45deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.02) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.02) 75%);
+      background-size: 40px 40px;
+      background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+    }
+
+    .racing-stripe {
+      background: repeating-linear-gradient(-45deg,
+          transparent,
+          transparent 10px,
+          var(--tw-colors-primary-container) 10px,
+          var(--tw-colors-primary-container) 20px);
+    }
+
+    .ghost-border {
+      border: 1px solid rgba(92, 64, 60, 0.15);
+      /* outline-variant at 15% */
+    }
+
+    .input-underline {
+      border-bottom: 1px solid rgba(92, 64, 60, 0.15);
+      transition: border-color 0.2s linear;
+    }
+
+    .input-underline:focus-within {
+      border-bottom: 2px solid var(--tw-colors-primary-container);
+    }
+  </style>
+</head>
+
+<body
+  class="bg-background text-on-background font-body h-screen w-screen overflow-hidden flex flex-col md:flex-row antialiased selection:bg-primary-container selection:text-on-primary-container">
+  <!-- Left Panel: Decorative / Brand Anchor -->
+  <div
+    class="hidden md:flex flex-col relative w-1/2 h-full bg-[#0a0a0a] overflow-hidden items-start justify-center p-16">
+    <!-- Checkerboard Texture Layer -->
+    <div class="absolute inset-0 checkerboard pointer-events-none z-0"></div>
+    <!-- Diagonal Red Stripes -->
+    <div
+      class="absolute top-0 right-0 w-32 h-[150%] racing-stripe transform translate-x-16 -translate-y-16 -skew-x-12 opacity-80 z-0">
+    </div>
+    <div class="absolute bottom-0 left-16 w-4 h-64 bg-primary-container z-0 opacity-50 transform -skew-x-12"></div>
+    <!-- Typography Anchor -->
+    <div class="relative z-10 flex flex-col gap-4 max-w-lg">
+      <h1
+        class="font-headline font-black text-6xl lg:text-8xl tracking-tighter uppercase leading-[0.85] text-on-surface">
+        TALLER<br />
+        <span class="text-primary-container">RACING</span>
+      </h1>
+      <div class="h-1 w-24 bg-primary-container mt-6"></div>
+      <p
+        class="font-label text-on-surface-variant uppercase tracking-[0.2em] text-sm mt-8 max-w-md border-l-2 border-primary-container pl-4">
+        Telemetry Center &amp; Operational Dashboard. Secure Access Required for Pit Crew Personnel.
+      </p>
+    </div>
+  </div>
+  <!-- Right Panel: Login Form -->
+  <div class="w-full md:w-1/2 h-full bg-surface-container-low flex flex-col justify-center items-center p-8 relative">
+    <!-- Subtle Ambient Shadow/Glow -->
+    <div
+      class="absolute w-96 h-96 bg-primary-container opacity-[0.03] blur-[100px] rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+    </div>
+    <!-- Mobile Brand Header (Visible only on small screens) -->
+    <div class="md:hidden flex flex-col items-center mb-12 relative z-10">
+      <h1 class="font-headline font-black text-4xl tracking-tighter uppercase text-on-surface text-center">
+        TALLER<br />
+        <span class="text-primary-container">RACING</span>
+      </h1>
+      <div class="h-1 w-12 bg-primary-container mt-4"></div>
+    </div>
+    <!-- Form Container -->
+    <div
+      class="w-full max-w-md bg-surface-container-highest ghost-border p-10 relative z-10 shadow-2xl shadow-black/50">
+      <div class="mb-10 flex items-center gap-3">
+        <div class="w-1 h-6 bg-primary-container"></div>
+        <h2 class="font-headline font-bold text-2xl tracking-tight text-on-surface uppercase">System Access</h2>
+      </div>
+      <form class="flex flex-col gap-8">
+        <!-- Email Field -->
+        <div class="flex flex-col gap-2 relative input-underline pb-2 group">
+          <label class="font-label text-xs uppercase tracking-widest text-on-surface-variant flex items-center gap-2"
+            for="email">
+            <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">mail</span>
+            Identification
+          </label>
+          <input
+            class="bg-transparent border-none outline-none text-on-surface font-body text-lg w-full focus:ring-0 p-0 placeholder-on-surface-variant/30"
+            id="email" name="email" placeholder="CREW_ID@TALLER.COM" required="" type="email" />
+        </div>
+        <!-- Password Field -->
+        <div class="flex flex-col gap-2 relative input-underline pb-2 group">
+          <div class="flex justify-between items-end">
+            <label class="font-label text-xs uppercase tracking-widest text-on-surface-variant flex items-center gap-2"
+              for="password">
+              <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">lock</span>
+              Passcode
+            </label>
+            <a class="font-label text-[10px] uppercase tracking-widest text-primary-container hover:text-primary transition-colors"
+              href="#">Recover?</a>
+          </div>
+          <input
+            class="bg-transparent border-none outline-none text-on-surface font-body text-lg w-full focus:ring-0 p-0 placeholder-on-surface-variant/30 tracking-widest"
+            id="password" name="password" placeholder="••••••••" required="" type="password" />
+        </div>
+        <div class="flex justify-end w-full">
+          <a class="font-label text-[10px] uppercase tracking-widest text-primary-container hover:text-primary transition-colors pb-2"
+            href="/pages/registro.html">Crear cuenta</a>
+        </div>
+        <!-- Submit Action -->
+        <button
+          class="mt-4 w-full bg-primary-container text-on-primary-container font-headline font-bold text-xl uppercase tracking-widest py-4 px-6 hover:bg-[#eb3333] transition-colors duration-150 flex justify-between items-center group relative overflow-hidden"
+          type="submit">
+          <span class="relative z-10">INGRESAR</span>
+          <span
+            class="material-symbols-outlined relative z-10 transform group-hover:translate-x-2 transition-transform duration-150">arrow_forward</span>
+          <!-- Hover Pattern Overlay -->
+          <div
+            class="absolute inset-0 racing-stripe opacity-0 group-hover:opacity-10 transition-opacity duration-150 z-0">
+          </div>
+        </button>
+      </form>
+    </div>
+    <!-- Footer -->
+    <div class="absolute bottom-8 text-center w-full z-10">
+      <p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant/50">
+        © Taller Mecánico 2025 // SECURE CONNECTION
+      </p>
+    </div>
+  </div>
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/auth.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaReady&render=explicit" async defer></script>
+  <script src="/assets/js/login.js"></script>
+</body>
+
+</html>
