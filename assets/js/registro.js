@@ -1,4 +1,5 @@
 function initRegistro() {
+  console.log("initRegistro iniciado");
   if (window.Auth && Auth.isAuthenticated()) {
     window.location.replace('/pages/dashboard.html');
   }
@@ -19,7 +20,7 @@ function initRegistro() {
     font-size:0.75rem; color:#FCA5A5;
     font-family:Inter,sans-serif; font-weight:500; text-align: center;
   `;
-  form.insertBefore(errorDiv, submitBtn);
+  submitBtn.parentNode.insertBefore(errorDiv, submitBtn);
 
   // Crear div para indicar éxito
   const successDiv = document.createElement('p');
@@ -29,9 +30,15 @@ function initRegistro() {
     font-size:0.75rem; color:#86efac;
     font-family:Inter,sans-serif; font-weight:500; text-align: center;
   `;
-  form.insertBefore(successDiv, submitBtn);
+  submitBtn.parentNode.insertBefore(successDiv, submitBtn);
 
+  console.log("submitBtn seleccionado:", submitBtn);
+  if (!submitBtn) {
+    console.error("submitBtn es null!");
+  }
+  
   submitBtn.addEventListener('click', async (e) => {
+    console.log("Botón de registro clickeado!");
     e.preventDefault();
 
     const nombre = document.getElementById('nombre').value.trim();
