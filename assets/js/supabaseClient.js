@@ -6,8 +6,13 @@ if (!window.supabase) {
 } else if (!CONFIG.SUPABASE_URL || !CONFIG.SUPABASE_ANON_KEY) {
   console.error("Falta configuración de Supabase en config.js");
 } else {
-  window.supabaseClient = supabase.createClient(
-    CONFIG.SUPABASE_URL,
-    CONFIG.SUPABASE_ANON_KEY
-  );
+  try {
+    window.supabaseClient = supabase.createClient(
+      CONFIG.SUPABASE_URL,
+      CONFIG.SUPABASE_ANON_KEY
+    );
+  } catch (err) {
+    console.error("Error al inicializar Supabase:", err.message);
+    window.supabaseClient = null;
+  }
 }
