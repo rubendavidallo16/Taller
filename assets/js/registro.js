@@ -1,0 +1,106 @@
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.Auth && Auth.isAuthenticated()) {
+    window.location.replace('/pages/dashboard.html');
+  }
+
+  const form = document.querySelector('form');
+  if (!form) return;
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  // Crear div para mostrar errores
+  const errorDiv = document.createElement('p');
+  errorDiv.id = 'registro-error';
+  errorDiv.style.cssText = `
+    display:none; margin-top:0.5rem; margin-bottom: 1rem;
+    font-size:0.75rem; color:#FCA5A5;
+    font-family:Inter,sans-serif; font-weight:500; text-align: center;
+  `;
+  form.insertBefore(errorDiv, submitBtn);
+
+  // Crear div para indicar éxito
+  const successDiv = document.createElement('p');
+  successDiv.id = 'registro-success';
+  successDiv.style.cssText = `
+    display:none; margin-top:0.5rem; margin-bottom: 1rem;
+    font-size:0.75rem; color:#86efac;
+    font-family:Inter,sans-serif; font-weight:500; text-align: center;
+  `;
+  form.insertBefore(successDiv, submitBtn);
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombre').value.trim();
+    const apellido = document.getElementById('apellido').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm_password').value;
+
+    errorDiv.style.display = 'none';
+    successDiv.style.display = 'none';
+
+    if (!nombre || !apellido || !email || !password || !confirmPassword) {
+      errorDiv.textContent = 'Por favor, completa todos los campos.';
+      errorDiv.style.display = 'block';
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      errorDiv.textContent = 'Las contraseñas no coinciden.';
+      errorDiv.style.display = 'block';
+      return;
+    }
+
+    if (password.length < 6) {
+      errorDiv.textContent = 'La contraseña debe tener al menos 6 caracteres.';
+      errorDiv.style.display = 'block';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.7';
+    const originalHTML = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<span style="font-family:Inter,sans-serif">REGISTRANDO...</span>';
+
+    try {
+      if (!window.supabaseClient) throw new Error('Supabase no inicializado.');
+
+      const { data, error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            nombre: nombre,
+            apellido: apellido,
+            role: 'USER' // Rol por defecto
+          }
+        }
+      });
+
+      if (error) throw new Error(error.message);
+
+      // Algunos proveedores requieren verificación de correo:
+      if (data.user && data.user.identities && data.user.identities.length === 0) {
+          throw new Error('Este correo ya está registrado.');
+      }
+
+      successDiv.textContent = '¡Registro exitoso! Ya puedes iniciar sesión.';
+      successDiv.style.display = 'block';
+      form.reset();
+
+      // Redirigir al login después de 2 segundos
+      setTimeout(() => {
+        window.location.href = '/pages/login.html';
+      }, 2000);
+
+    } catch (err) {
+      errorDiv.textContent = err.message || 'Error al crear la cuenta.';
+      errorDiv.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '1';
+      submitBtn.innerHTML = originalHTML;
+    }
+  });
+});

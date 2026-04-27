@@ -90,10 +90,28 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.innerHTML = '<span style="font-family:Inter,sans-serif">AUTENTICANDO...</span>';
 
     try {
-      if (!window.API) throw new Error('API config missing');
+      if (!window.supabaseClient) throw new Error('Supabase no inicializado.');
       
-      const res = await API.login(email, password, recaptchaToken);
-      Auth.saveSession(res.token, res.user);
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password,
+        options: {
+          captchaToken: recaptchaToken
+        }
+      });
+
+      if (error) throw new Error(error.message);
+
+      // Adaptación al sistema antiguo de sesión para no romper otras partes
+      const metadata = data.user.user_metadata || {};
+      Auth.saveSession(data.session.access_token, {
+        id: data.user.id,
+        email: data.user.email,
+        role: metadata.role || 'USER',
+        nombre: metadata.nombre || '',
+        apellido: metadata.apellido || ''
+      });
+      
       window.location.replace('/pages/dashboard.html');
     } catch (err) {
       errEl.textContent = err.message || 'Error al iniciar sesión.';

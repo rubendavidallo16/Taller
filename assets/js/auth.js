@@ -69,6 +69,11 @@ function logout() {
   localStorage.removeItem(CONFIG.USER_KEY);
   localStorage.removeItem(CONFIG.ROLE_KEY);
   localStorage.removeItem(CONFIG.USERNAME_KEY);
+  
+  if (window.supabaseClient) {
+    supabaseClient.auth.signOut().catch(console.error);
+  }
+  
   window.location.replace('/pages/login.html');
 }
 
