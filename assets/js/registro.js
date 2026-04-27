@@ -1,11 +1,13 @@
-// Ejecución inmediata con IIFE para evitar error de sintaxis en return
-(function() {
+function initRegistro() {
   if (window.Auth && Auth.isAuthenticated()) {
     window.location.replace('/pages/dashboard.html');
   }
 
-  const form = document.querySelector('form');
-  if (!form) return;
+  const form = document.getElementById('formRegistro') || document.querySelector('form');
+  if (!form) {
+    console.error("No se encontró el formulario de registro.");
+    return;
+  }
 
   const submitBtn = form.querySelector('button[type="submit"]');
 
@@ -104,5 +106,11 @@
       submitBtn.innerHTML = originalHTML;
     }
   });
-})();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initRegistro);
+} else {
+  initRegistro();
+}
 

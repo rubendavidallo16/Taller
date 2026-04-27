@@ -25,14 +25,16 @@ window.onRecaptchaReady = function() {
   }
 };
 
-// Ejecución inmediata con IIFE
-(function() {
+function initLogin() {
   if (window.Auth && Auth.isAuthenticated()) {
     window.location.replace('/pages/dashboard.html');
   }
 
-  const form = document.querySelector('form');
-  if (!form) return;
+  const form = document.getElementById('formLogin') || document.querySelector('form');
+  if (!form) {
+    console.error("No se encontró el formulario de login.");
+    return;
+  }
 
   const submitBtn = form.querySelector('button[type="submit"]');
 
@@ -124,5 +126,11 @@ window.onRecaptchaReady = function() {
       submitBtn.innerHTML = originalHTML;
     }
   });
-})();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLogin);
+} else {
+  initLogin();
+}
 
