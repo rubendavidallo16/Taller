@@ -1,7 +1,7 @@
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.Auth && Auth.isAuthenticated()) {
-    window.location.replace('/pages/dashboard.html');
-  }
+// Ejecución inmediata, ya que el script carga al final del body
+if (window.Auth && Auth.isAuthenticated()) {
+  window.location.replace('/pages/dashboard.html');
+}
 
   const form = document.querySelector('form');
   if (!form) return;
@@ -103,4 +103,4 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.innerHTML = originalHTML;
     }
   });
-});
+
