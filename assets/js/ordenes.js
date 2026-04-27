@@ -15,20 +15,25 @@ function setupNavLinks() {
   const navMap = {
     'DASHBOARD': '/pages/dashboard.html',
     'CLIENTES': '/pages/clientes.html',
-    'VEHICLES': '/pages/vehiculos.html',
-    'WORK_ORDERS': '/pages/ordenes.html',
-    'INVENTORY': '/pages/repuestos.html',
-    'LOG_OUT': 'logout'
+    'VEHÍCULOS': '/pages/vehiculos.html',
+    'ÓRDENES DE TRABAJO': '/pages/ordenes.html',
+    'SERVICIOS': '/pages/servicios.html',
+    'REPUESTOS': '/pages/repuestos.html',
+    'USUARIOS': '/pages/usuarios.html'
   };
 
   links.forEach(a => {
     const text = a.textContent.trim().toUpperCase();
-    for (const key in navMap) {
-      if (text.includes(key)) {
-        if (navMap[key] === 'logout') {
-          a.addEventListener('click', e => { e.preventDefault(); Auth.logout(); });
-        } else {
-          a.href = navMap[key];
+    if (text.includes('LOGOUT')) {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        Auth.logout();
+      });
+    } else {
+      for (const [key, path] of Object.entries(navMap)) {
+        if (text.includes(key)) {
+          a.href = path;
+          break;
         }
       }
     }

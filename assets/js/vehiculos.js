@@ -37,13 +37,18 @@ function setupNavLinks() {
 
   links.forEach(a => {
     const text = a.textContent.trim().toUpperCase();
-    if (navMap[text]) {
-      a.href = navMap[text];
-    } else if (text === 'LOGOUT') {
+    if (text.includes('LOGOUT')) {
       a.addEventListener('click', (e) => {
         e.preventDefault();
         Auth.logout();
       });
+    } else {
+      for (const [key, path] of Object.entries(navMap)) {
+        if (text.includes(key)) {
+          a.href = path;
+          break;
+        }
+      }
     }
   });
 }
