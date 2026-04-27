@@ -3,12 +3,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupNavLinks();
 
   try {
+    updateWelcomeMessage();
     await loadStats();
     await loadRecentOrdenes();
   } catch(e) {
     Utils.showToast('Error al cargar el dashboard', 'error');
   }
 });
+
+function updateWelcomeMessage() {
+  const welcomeH2 = document.querySelector('header h2');
+  if (welcomeH2) {
+    const userName = localStorage.getItem(CONFIG.USERNAME_KEY) || 'Piloto';
+    // Remove default "Bienvenido, Pedro" text and preserve gap icons if any
+    welcomeH2.textContent = `Bienvenido, ${userName.trim()}`;
+  }
+}
 
 function setupNavLinks() {
   const links = document.querySelectorAll('aside a');
