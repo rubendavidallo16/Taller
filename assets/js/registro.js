@@ -36,7 +36,7 @@ function initRegistro() {
   if (!submitBtn) {
     console.error("submitBtn es null!");
   }
-  
+
   submitBtn.addEventListener('click', async (e) => {
     console.log("Botón de registro clickeado!");
     e.preventDefault();
@@ -73,6 +73,21 @@ function initRegistro() {
     const originalHTML = submitBtn.innerHTML;
     submitBtn.innerHTML = '<span style="font-family:Inter,sans-serif">REGISTRANDO...</span>';
 
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    // Contenedor reCAPTCHA
+    const recaptchaWrapper = document.createElement('div');
+    recaptchaWrapper.style.cssText = 'margin-bottom:1rem;';
+    recaptchaWrapper.innerHTML = `
+    <div id="recaptcha-login"></div>
+    <p id="recaptcha-error" style="
+      display:none; margin-top:0.4rem;
+      font-size:0.72rem; color:#FCA5A5;
+      font-family:Inter,sans-serif; font-weight:500;
+    ">⚠ Completa la verificación de seguridad para continuar</p>
+  `;
+    form.insertBefore(recaptchaWrapper, submitBtn);
+
     try {
       if (!window.supabaseClient) throw new Error('Supabase no inicializado.');
 
@@ -92,7 +107,7 @@ function initRegistro() {
 
       // Algunos proveedores requieren verificación de correo:
       if (data.user && data.user.identities && data.user.identities.length === 0) {
-          throw new Error('Este correo ya está registrado.');
+        throw new Error('Este correo ya está registrado.');
       }
 
       successDiv.textContent = '¡Registro exitoso! Ya puedes iniciar sesión.';
