@@ -25,10 +25,11 @@ window.onRecaptchaReady = function() {
   }
 };
 
-// Ejecución inmediata
-if (window.Auth && Auth.isAuthenticated()) {
-  window.location.replace('/pages/dashboard.html');
-}
+// Ejecución inmediata con IIFE
+(function() {
+  if (window.Auth && Auth.isAuthenticated()) {
+    window.location.replace('/pages/dashboard.html');
+  }
 
   const form = document.querySelector('form');
   if (!form) return;
@@ -123,4 +124,5 @@ if (window.Auth && Auth.isAuthenticated()) {
       submitBtn.innerHTML = originalHTML;
     }
   });
+})();
 

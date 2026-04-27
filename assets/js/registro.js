@@ -1,7 +1,8 @@
-// Ejecución inmediata, ya que el script carga al final del body
-if (window.Auth && Auth.isAuthenticated()) {
-  window.location.replace('/pages/dashboard.html');
-}
+// Ejecución inmediata con IIFE para evitar error de sintaxis en return
+(function() {
+  if (window.Auth && Auth.isAuthenticated()) {
+    window.location.replace('/pages/dashboard.html');
+  }
 
   const form = document.querySelector('form');
   if (!form) return;
@@ -103,4 +104,5 @@ if (window.Auth && Auth.isAuthenticated()) {
       submitBtn.innerHTML = originalHTML;
     }
   });
+})();
 
