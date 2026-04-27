@@ -59,6 +59,20 @@ function initRegistro() {
   `;
   submitBtn.parentNode.insertBefore(successDiv, submitBtn);
 
+  // Contenedor reCAPTCHA
+  const recaptchaWrapper = document.createElement('div');
+  recaptchaWrapper.style.cssText = 'margin-bottom:1rem;';
+  recaptchaWrapper.innerHTML = `
+    <div id="recaptcha-login"></div>
+    <p id="recaptcha-error" style="
+      display:none; margin-top:0.4rem;
+      font-size:0.72rem; color:#FCA5A5;
+      font-family:Inter,sans-serif; font-weight:500;
+    ">⚠ Completa la verificación de seguridad para continuar</p>
+  `;
+  form.insertBefore(recaptchaWrapper, submitBtn);
+
+
   console.log("submitBtn seleccionado:", submitBtn);
   if (!submitBtn) {
     console.error("submitBtn es null!");
@@ -101,19 +115,6 @@ function initRegistro() {
     submitBtn.innerHTML = '<span style="font-family:Inter,sans-serif">REGISTRANDO...</span>';
 
     const submitBtn = form.querySelector('button[type="submit"]');
-
-    // Contenedor reCAPTCHA
-    const recaptchaWrapper = document.createElement('div');
-    recaptchaWrapper.style.cssText = 'margin-bottom:1rem;';
-    recaptchaWrapper.innerHTML = `
-    <div id="recaptcha-login"></div>
-    <p id="recaptcha-error" style="
-      display:none; margin-top:0.4rem;
-      font-size:0.72rem; color:#FCA5A5;
-      font-family:Inter,sans-serif; font-weight:500;
-    ">⚠ Completa la verificación de seguridad para continuar</p>
-  `;
-    form.insertBefore(recaptchaWrapper, submitBtn);
 
     try {
       if (!window.supabaseClient) throw new Error('Supabase no inicializado.');
