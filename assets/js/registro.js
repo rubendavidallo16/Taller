@@ -1,3 +1,30 @@
+let recaptchaToken = null;
+let widgetId = null;
+
+window.onRecaptchaReady = function () {
+  if (!document.getElementById('recaptcha-login')) {
+    // Si el DOM aun no ha inyectado el div, esperamos 50ms
+    setTimeout(window.onRecaptchaReady, 50);
+    return;
+  }
+  try {
+    widgetId = grecaptcha.render('recaptcha-login', {
+      sitekey: window.CONFIG ? CONFIG.RECAPTCHA_SITE_KEY : '',
+      theme: 'dark',
+      callback: (token) => {
+        recaptchaToken = token;
+        const capErr = document.getElementById('recaptcha-error');
+        if (capErr) capErr.style.display = 'none';
+      },
+      'expired-callback': () => {
+        recaptchaToken = null;
+      }
+    });
+  } catch (e) {
+    console.warn("reCAPTCHA render error:", e);
+  }
+};
+
 function initRegistro() {
   console.log("initRegistro iniciado");
   if (window.Auth && Auth.isAuthenticated()) {
