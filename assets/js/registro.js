@@ -9,7 +9,7 @@ function initRegistro() {
     return;
   }
 
-  const submitBtn = form.querySelector('button[type="submit"]');
+  const submitBtn = document.getElementById('btnRegistrar') || form.querySelector('button');
 
   // Crear div para mostrar errores
   const errorDiv = document.createElement('p');
@@ -31,7 +31,7 @@ function initRegistro() {
   `;
   form.insertBefore(successDiv, submitBtn);
 
-  form.addEventListener('submit', async (e) => {
+  submitBtn.addEventListener('click', async (e) => {
     e.preventDefault();
 
     const nombre = document.getElementById('nombre').value.trim();
