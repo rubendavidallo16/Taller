@@ -116,7 +116,7 @@ function initRegistro() {
       return;
     }
 
-    submitBtn.disabled = true;
+    submitBtn.disabled = false;
     submitBtn.style.opacity = '0.7';
     const originalHTML = submitBtn.innerHTML;
     submitBtn.innerHTML = '<span style="font-family:Inter,sans-serif">REGISTRANDO...</span>';
