@@ -84,7 +84,10 @@ function updateStatCard(cardEl, value) {
 async function loadRecentOrdenes() {
   try {
     const data = await API.getRecentOrdenes();
-    if (!data || !data.content) return;
+    if (!data) return;
+
+    const ordenes = Array.isArray(data) ? data : (data.content || []);
+    if (ordenes.length === 0) return;
 
     const tbody = document.querySelector('table tbody');
     if (!tbody) return;
@@ -92,7 +95,7 @@ async function loadRecentOrdenes() {
     // Limpiar las filas estáticas existentes
     tbody.innerHTML = '';
 
-    data.content.forEach(orden => {
+    ordenes.forEach(orden => {
       const tr = document.createElement('tr');
       tr.className = 'border-b border-outline-variant/15 hover:bg-surface-container-high/50 transition-colors group';
 
@@ -105,7 +108,7 @@ async function loadRecentOrdenes() {
       const fecha = orden.fecha ? Utils.formatDate(orden.fecha) : 'N/A';
 
       tr.innerHTML = `
-        <td class="p-4 font-headline text-sm font-bold text-neutral-400">#WO-${orden.id || '-'}</td>
+        <td class="p-4 font-headline text-sm font-bold text-neutral-400">#WO-${(orden.id || '-').substring(0, 8)}</td>
         <td class="p-4 font-body text-sm text-on-surface">${cNombre}</td>
         <td class="p-4 font-body text-sm text-neutral-400">${vNombre}</td>
         <td class="p-4">
