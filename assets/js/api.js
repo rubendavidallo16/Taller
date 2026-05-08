@@ -72,7 +72,7 @@ window.API = {
     return paginateQuery(query, page, size);
   },
   getOrdenById: async (id) => {
-    return handleResponse(await supabaseClient.from('ordenes').select('*, vehiculos(*, clientes(*)), orden_items(*)').eq('id', id).single());
+    return handleResponse(await supabaseClient.from('ordenes').select('*, vehiculos(*, clientes(*)), orden_items(*, servicios(*), repuestos(*))').eq('id', id).single());
   },
   createOrden: async (data) => {
     return handleResponse(await supabaseClient.from('ordenes').insert([data]).select().single());

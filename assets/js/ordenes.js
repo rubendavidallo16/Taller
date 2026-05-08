@@ -124,7 +124,7 @@ async function loadOrdenes() {
     (data.content || []).forEach(orden => {
       const statusColor = Utils.getStatusColor(orden.estado);
       const isPulse = orden.estado === 'EN_PROCESO' ? 'animate-pulse' : '';
-      const vNombre = orden.vehiculo ? `${orden.vehiculo.marca || ''} ${orden.vehiculo.modelo || ''}` : 'N/A';
+      const vNombre = orden.vehiculos ? `${orden.vehiculos.marca || ''} ${orden.vehiculos.modelo || ''}` : 'N/A';
 
       const row = document.createElement('div');
       row.className = 'grid grid-cols-12 gap-4 p-4 items-center border-b border-white/5 hover:bg-surface-container-high transition-colors cursor-pointer group bg-surface-container-high';
@@ -157,8 +157,9 @@ async function verDetalle(id) {
     detailPanel.querySelector('h3').textContent = `#WO-${orden.id}`;
     const spans = detailPanel.querySelectorAll('.grid-cols-2 span.text-white');
     if (spans.length >= 2) {
-      spans[0].textContent = orden.cliente ? `${orden.cliente.nombre} ${orden.cliente.apellido}` : 'N/A';
-      spans[1].textContent = Utils.formatDate(orden.fechaIngreso || new Date());
+      const cli = orden.vehiculos?.clientes;
+      spans[0].textContent = cli ? `${cli.nombre} ${cli.apellido}` : 'N/A';
+      spans[1].textContent = Utils.formatDate(orden.fecha || new Date());
     }
 
     const wMap = { 'RECIBIDO': '25%', 'EN_PROCESO': '50%', 'TERMINADO': '75%', 'ENTREGADO': '100%' };
@@ -210,9 +211,9 @@ function renderItemsPanel(items) {
   list.innerHTML = '';
   let total = 0;
   items.forEach(it => {
-    let sub = parseFloat(it.cantidad) * parseFloat(it.precioHistorico || it.precio);
+    let sub = parseFloat(it.subtotal || 0);
     total += sub;
-    const name = it.servicio ? it.servicio.nombre : (it.repuesto ? it.repuesto.nombre : 'Item');
+    const name = it.servicios ? it.servicios.nombre : (it.repuestos ? it.repuestos.nombre : 'Item');
     list.innerHTML += `
       <div style="background:#2A2A2A; padding:0.5rem; display:flex; justify-content:space-between; align-items:center;">
         <div style="color:#A1A1AA; font-size:0.8rem;">
@@ -266,12 +267,14 @@ async function agregarItem(e) {
   
   if(!itemId) return;
 
+  const cant = parseFloat(cantidad) || 1;
+  const p = parseFloat(precio) || 0;
   const body = {
-    cantidad: parseFloat(cantidad),
-    precioHistorico: parseFloat(precio)
+    cantidad: cant,
+    subtotal: cant * p
   };
-  if(tipo === 'SERVICIO') body.servicio = { id: itemId };
-  else body.repuesto = { id: itemId };
+  if(tipo === 'SERVICIO') body.servicio_id = itemId;
+  else body.repuesto_id = itemId;
 
   try {
     await API.addItemToOrden(currentOrdenId, body);
@@ -332,7 +335,7 @@ function setupEventListeners() {
     const vehiculoId = document.getElementById('select-vehiculo').value;
     const observaciones = document.getElementById('obs-orden').value;
     try {
-      await API.createOrden({ vehiculo: {id: vehiculoId}, observaciones });
+      await API.createOrden({ vehiculo_id: vehiculoId, observaciones });
       Utils.showToast('Orden creada', 'success');
       document.getElementById('modal-nueva-orden').style.display = 'none';
       e.target.reset();
