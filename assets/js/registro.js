@@ -90,6 +90,8 @@ function initRegistro() {
 
     errorDiv.style.display = 'none';
     successDiv.style.display = 'none';
+    const capErr = document.getElementById('recaptcha-error');
+    if (capErr) capErr.style.display = 'none';
 
     if (!nombre || !apellido || !email || !password || !confirmPassword) {
       errorDiv.textContent = 'Por favor, completa todos los campos.';
@@ -109,6 +111,11 @@ function initRegistro() {
       return;
     }
 
+    if (!recaptchaToken) {
+      if (capErr) capErr.style.display = 'block';
+      return;
+    }
+
     submitBtn.disabled = true;
     submitBtn.style.opacity = '0.7';
     const originalHTML = submitBtn.innerHTML;
@@ -123,6 +130,7 @@ function initRegistro() {
         email,
         password,
         options: {
+          captchaToken: recaptchaToken,
           data: {
             nombre: nombre,
             apellido: apellido,
@@ -150,6 +158,8 @@ function initRegistro() {
     } catch (err) {
       errorDiv.textContent = err.message || 'Error al crear la cuenta.';
       errorDiv.style.display = 'block';
+      recaptchaToken = null;
+      if (widgetId !== null && window.grecaptcha) grecaptcha.reset(widgetId);
     } finally {
       submitBtn.disabled = false;
       submitBtn.style.opacity = '1';
