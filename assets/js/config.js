@@ -5,7 +5,7 @@ window.CONFIG = {
   ROLE_KEY: 'paddock_role',
   USERNAME_KEY: 'paddock_username',
   RECAPTCHA_SITE_KEY: '6LcqQswsAAAAAEmKF2bI483dLGnldhe1P1RWgLi-',
-  SUPABASE_URL: 'https://afsvnqxclgkhaglviomn.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmc3ZucXhjbGdraGFnbHZpb21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyNTA4MjAsImV4cCI6MjA5MjgyNjgyMH0.zSi5G8PGBQM38ADUkFr_vEYFSvjXndznIC4M8QiQBRA'
+  SUPABASE_URL: 'https://hxyqiogduegbdlzgdylc.supabase.co/rest/v1/',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4eXFpb2dkdWVnYmRsemdkeWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMDU3MjIsImV4cCI6MjA5MzY4MTcyMn0.SBYeG0nqGyuIbVTIjA2QTw9tmtXikPSUgm8vLxFdvwY'
   // El Anon Key es público y seguro de poner en el frontend.
 };
