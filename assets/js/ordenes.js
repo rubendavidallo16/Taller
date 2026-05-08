@@ -317,7 +317,7 @@ function setupEventListeners() {
   if (selectFiltro) selectFiltro.addEventListener('change', loadOrdenes);
 
   // New order button setup
-  const btnNew = Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('NEW_ORDER'));
+  const btnNew = Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('NUEVA ORDEN'));
   if (btnNew) {
     btnNew.addEventListener('click', async () => {
       document.getElementById('modal-nueva-orden').style.display = 'flex';
