@@ -99,9 +99,10 @@ async function loadRecentOrdenes() {
       const status = Utils.getStatusColor(orden.estado);
       const isPulse = orden.estado === 'EN_PROCESO' ? 'animate-pulse' : '';
       
-      const cNombre = orden.cliente ? `${orden.cliente.nombre || ''} ${orden.cliente.apellido || ''}`.trim() : 'N/A';
-      const vNombre = orden.vehiculo ? `${orden.vehiculo.marca || ''} ${orden.vehiculo.modelo || ''}`.trim() : 'N/A';
-      const fecha = orden.fechaRecepcion ? Utils.formatDate(orden.fechaRecepcion) : 'N/A';
+      const cli = orden.vehiculos?.clientes;
+      const cNombre = cli ? `${cli.nombre || ''} ${cli.apellido || ''}`.trim() : 'N/A';
+      const vNombre = orden.vehiculos ? `${orden.vehiculos.marca || ''} ${orden.vehiculos.modelo || ''}`.trim() : 'N/A';
+      const fecha = orden.fecha ? Utils.formatDate(orden.fecha) : 'N/A';
 
       tr.innerHTML = `
         <td class="p-4 font-headline text-sm font-bold text-neutral-400">#WO-${orden.id || '-'}</td>

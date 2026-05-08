@@ -135,16 +135,23 @@ window.API = {
 
   // Dashboard
   getDashboardStats: async () => {
-    const [ordenesActivas, vehiculos, clientes] = await Promise.all([
+    const today = new Date();
+    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1).toISOString();
+    
+    const [ordenesActivas, vehiculos, clientes, items] = await Promise.all([
       supabaseClient.from('ordenes').select('id', { count: 'exact', head: true }).in('estado', ['RECIBIDO', 'EN_PROCESO']),
       supabaseClient.from('vehiculos').select('id', { count: 'exact', head: true }),
-      supabaseClient.from('clientes').select('id', { count: 'exact', head: true })
+      supabaseClient.from('clientes').select('id', { count: 'exact', head: true }),
+      supabaseClient.from('orden_items').select('subtotal, ordenes!inner(fecha)').gte('ordenes.fecha', firstDay)
     ]);
+    
+    const ingresos = (items.data || []).reduce((sum, item) => sum + (parseFloat(item.subtotal) || 0), 0);
+    
     return {
       ordenesActivas: ordenesActivas.count || 0,
       vehiculosEnTaller: vehiculos.count || 0,
       clientesRegistrados: clientes.count || 0,
-      ingresosDelMes: 0
+      ingresosDelMes: ingresos
     };
   },
   getRecentOrdenes: async () => {
