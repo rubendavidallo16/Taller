@@ -116,12 +116,10 @@ function initRegistro() {
       return;
     }
 
-    submitBtn.disabled = false;
+    submitBtn.disabled = true;
     submitBtn.style.opacity = '0.7';
     const originalHTML = submitBtn.innerHTML;
     submitBtn.innerHTML = '<span style="font-family:Inter,sans-serif">REGISTRANDO...</span>';
-
-    const submitBtn = form.querySelector('button[type="submit"]');
 
     try {
       if (!window.supabaseClient) throw new Error('Supabase no inicializado.');
