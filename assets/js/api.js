@@ -1,95 +1,148 @@
-async function apiFetch(endpoint, options = {}) {
-  const url = CONFIG.API_BASE_URL + endpoint;
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + Auth.getToken(),
-    ...(options.headers || {})
-  };
-
-  const response = await fetch(url, { ...options, headers });
-  
-  if (response.status === 401) {
-    Auth.logout();
-    throw new Error('Sesión expirada o no autorizada.');
+// Función auxiliar para manejar respuestas de Supabase
+function handleResponse({ data, error }) {
+  if (error) {
+    throw new Error(error.message || 'Ocurrió un error en la base de datos.');
   }
-  
-  if (!response.ok) {
-    let errorMsg = 'Ocurrió un error en la solicitud.';
-    try {
-      const err = await response.json();
-      errorMsg = err.message || errorMsg;
-    } catch (e) {
-      // Ignorar fallback parse JSON
-    }
-    throw new Error(errorMsg);
-  }
-  
-  if (response.status === 204) return null;
-  return response.json();
+  return data;
 }
 
 window.API = {
-  // Auth
-  login: (email, password, recaptchaToken) =>
-    fetch(CONFIG.API_BASE_URL + '/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, recaptchaToken })
-    }).then(async r => {
-      if (!r.ok) {
-        const err = await r.json().catch(() => ({}));
-        if (r.status === 401) throw new Error('Credenciales incorrectas.');
-        if (r.status === 400) throw new Error(err.message || 'Verificación de seguridad fallida.');
-        if (r.status === 429) throw new Error('Demasiados intentos. Espera unos minutos.');
-        throw new Error(err.message || 'Error al iniciar sesión.');
-      }
-      return r.json();
-    }),
-
   // Clientes
-  getClientes:    (page=0, size=10) => apiFetch(`/clientes?page=${page}&size=${size}`),
-  getClienteById: (id)              => apiFetch(`/clientes/${id}`),
-  createCliente:  (data)            => apiFetch('/clientes', { method:'POST', body:JSON.stringify(data) }),
-  updateCliente:  (id, data)        => apiFetch(`/clientes/${id}`, { method:'PUT', body:JSON.stringify(data) }),
-  deleteCliente:  (id)              => apiFetch(`/clientes/${id}`, { method:'DELETE' }),
-  searchClientes: (q)               => apiFetch(`/clientes/search?q=${encodeURIComponent(q)}`),
+  getClientes: async (page = 0, size = 10) => {
+    const from = page * size;
+    const to = from + size - 1;
+    return handleResponse(await supabaseClient.from('clientes').select('*').range(from, to));
+  },
+  getClienteById: async (id) => {
+    return handleResponse(await supabaseClient.from('clientes').select('*').eq('id', id).single());
+  },
+  createCliente: async (data) => {
+    return handleResponse(await supabaseClient.from('clientes').insert([data]).select().single());
+  },
+  updateCliente: async (id, data) => {
+    return handleResponse(await supabaseClient.from('clientes').update(data).eq('id', id).select().single());
+  },
+  deleteCliente: async (id) => {
+    return handleResponse(await supabaseClient.from('clientes').delete().eq('id', id));
+  },
+  searchClientes: async (q) => {
+    return handleResponse(await supabaseClient.from('clientes').select('*').or(`nombre.ilike.%${q}%,apellido.ilike.%${q}%,email.ilike.%${q}%,telefono.ilike.%${q}%`));
+  },
 
   // Vehículos
-  getVehiculos:          (page=0, size=10) => apiFetch(`/vehiculos?page=${page}&size=${size}`),
-  getVehiculoById:       (id)              => apiFetch(`/vehiculos/${id}`),
-  createVehiculo:        (data)            => apiFetch('/vehiculos', { method:'POST', body:JSON.stringify(data) }),
-  updateVehiculo:        (id, data)        => apiFetch(`/vehiculos/${id}`, { method:'PUT', body:JSON.stringify(data) }),
-  deleteVehiculo:        (id)              => apiFetch(`/vehiculos/${id}`, { method:'DELETE' }),
-  getVehiculosByCliente: (cid)             => apiFetch(`/vehiculos/cliente/${cid}`),
+  getVehiculos: async (page = 0, size = 10) => {
+    const from = page * size;
+    const to = from + size - 1;
+    return handleResponse(await supabaseClient.from('vehiculos').select('*, clientes(*)').range(from, to));
+  },
+  getVehiculoById: async (id) => {
+    return handleResponse(await supabaseClient.from('vehiculos').select('*, clientes(*)').eq('id', id).single());
+  },
+  createVehiculo: async (data) => {
+    return handleResponse(await supabaseClient.from('vehiculos').insert([data]).select().single());
+  },
+  updateVehiculo: async (id, data) => {
+    return handleResponse(await supabaseClient.from('vehiculos').update(data).eq('id', id).select().single());
+  },
+  deleteVehiculo: async (id) => {
+    return handleResponse(await supabaseClient.from('vehiculos').delete().eq('id', id));
+  },
+  getVehiculosByCliente: async (cid) => {
+    return handleResponse(await supabaseClient.from('vehiculos').select('*').eq('cliente_id', cid));
+  },
 
   // Órdenes
-  getOrdenes:          (page=0, size=10, estado='') => apiFetch(`/ordenes?page=${page}&size=${size}${estado ? '&estado='+estado : ''}`),
-  getOrdenById:        (id)                         => apiFetch(`/ordenes/${id}`),
-  createOrden:         (data)                       => apiFetch('/ordenes', { method:'POST', body:JSON.stringify(data) }),
-  updateOrdenEstado:   (id, estado)                 => apiFetch(`/ordenes/${id}/estado`, { method:'PATCH', body:JSON.stringify({ estado }) }),
-  deleteOrden:         (id)                         => apiFetch(`/ordenes/${id}`, { method:'DELETE' }),
-  addItemToOrden:      (oid, item)                  => apiFetch(`/ordenes/${oid}/items`, { method:'POST', body:JSON.stringify(item) }),
-  removeItemFromOrden: (oid, iid)                   => apiFetch(`/ordenes/${oid}/items/${iid}`, { method:'DELETE' }),
+  getOrdenes: async (page = 0, size = 10, estado = '') => {
+    const from = page * size;
+    const to = from + size - 1;
+    let query = supabaseClient.from('ordenes').select('*, vehiculos(*, clientes(*))');
+    if (estado) query = query.eq('estado', estado);
+    return handleResponse(await query.range(from, to).order('fecha', { ascending: false }));
+  },
+  getOrdenById: async (id) => {
+    return handleResponse(await supabaseClient.from('ordenes').select('*, vehiculos(*, clientes(*)), orden_items(*)').eq('id', id).single());
+  },
+  createOrden: async (data) => {
+    return handleResponse(await supabaseClient.from('ordenes').insert([data]).select().single());
+  },
+  updateOrdenEstado: async (id, estado) => {
+    return handleResponse(await supabaseClient.from('ordenes').update({ estado }).eq('id', id).select().single());
+  },
+  deleteOrden: async (id) => {
+    return handleResponse(await supabaseClient.from('ordenes').delete().eq('id', id));
+  },
+  addItemToOrden: async (oid, item) => {
+    item.orden_id = oid;
+    return handleResponse(await supabaseClient.from('orden_items').insert([item]).select().single());
+  },
+  removeItemFromOrden: async (oid, iid) => {
+    return handleResponse(await supabaseClient.from('orden_items').delete().eq('id', iid).eq('orden_id', oid));
+  },
 
   // Servicios
-  getServicios:    (page=0, size=10) => apiFetch(`/servicios?page=${page}&size=${size}`),
-  createServicio:  (data)            => apiFetch('/servicios', { method:'POST', body:JSON.stringify(data) }),
-  updateServicio:  (id, data)        => apiFetch(`/servicios/${id}`, { method:'PUT', body:JSON.stringify(data) }),
-  deleteServicio:  (id)              => apiFetch(`/servicios/${id}`, { method:'DELETE' }),
+  getServicios: async (page = 0, size = 10) => {
+    const from = page * size;
+    const to = from + size - 1;
+    return handleResponse(await supabaseClient.from('servicios').select('*').range(from, to));
+  },
+  createServicio: async (data) => {
+    return handleResponse(await supabaseClient.from('servicios').insert([data]).select().single());
+  },
+  updateServicio: async (id, data) => {
+    return handleResponse(await supabaseClient.from('servicios').update(data).eq('id', id).select().single());
+  },
+  deleteServicio: async (id) => {
+    return handleResponse(await supabaseClient.from('servicios').delete().eq('id', id));
+  },
 
   // Repuestos
-  getRepuestos:   (page=0, size=10) => apiFetch(`/repuestos?page=${page}&size=${size}`),
-  createRepuesto: (data)            => apiFetch('/repuestos', { method:'POST', body:JSON.stringify(data) }),
-  updateRepuesto: (id, data)        => apiFetch(`/repuestos/${id}`, { method:'PUT', body:JSON.stringify(data) }),
-  deleteRepuesto: (id)              => apiFetch(`/repuestos/${id}`, { method:'DELETE' }),
+  getRepuestos: async (page = 0, size = 10) => {
+    const from = page * size;
+    const to = from + size - 1;
+    return handleResponse(await supabaseClient.from('repuestos').select('*').range(from, to));
+  },
+  createRepuesto: async (data) => {
+    return handleResponse(await supabaseClient.from('repuestos').insert([data]).select().single());
+  },
+  updateRepuesto: async (id, data) => {
+    return handleResponse(await supabaseClient.from('repuestos').update(data).eq('id', id).select().single());
+  },
+  deleteRepuesto: async (id) => {
+    return handleResponse(await supabaseClient.from('repuestos').delete().eq('id', id));
+  },
 
   // Usuarios
-  getUsuarios:    (page=0, size=10) => apiFetch(`/usuarios?page=${page}&size=${size}`),
-  createUsuario:  (data)            => apiFetch('/usuarios', { method:'POST', body:JSON.stringify(data) }),
-  updateUsuario:  (id, data)        => apiFetch(`/usuarios/${id}`, { method:'PUT', body:JSON.stringify(data) }),
-  deleteUsuario:  (id)              => apiFetch(`/usuarios/${id}`, { method:'DELETE' }),
+  getUsuarios: async (page = 0, size = 10) => {
+    const from = page * size;
+    const to = from + size - 1;
+    return handleResponse(await supabaseClient.from('usuarios').select('*').range(from, to));
+  },
+  createUsuario: async (data) => {
+    return handleResponse(await supabaseClient.from('usuarios').insert([data]).select().single());
+  },
+  updateUsuario: async (id, data) => {
+    return handleResponse(await supabaseClient.from('usuarios').update(data).eq('id', id).select().single());
+  },
+  deleteUsuario: async (id) => {
+    return handleResponse(await supabaseClient.from('usuarios').delete().eq('id', id));
+  },
 
   // Dashboard
-  getDashboardStats:  () => apiFetch('/dashboard/stats'),
-  getRecentOrdenes:   () => apiFetch('/ordenes?page=0&size=5&sort=fecha,desc'),
+  getDashboardStats: async () => {
+    // Para simplificar, obtenemos los conteos básicos
+    const [ordenesActivas, vehiculos, clientes] = await Promise.all([
+      supabaseClient.from('ordenes').select('id', { count: 'exact', head: true }).in('estado', ['RECIBIDO', 'EN_PROCESO']),
+      supabaseClient.from('vehiculos').select('id', { count: 'exact', head: true }),
+      supabaseClient.from('clientes').select('id', { count: 'exact', head: true })
+    ]);
+    return {
+      ordenesActivas: ordenesActivas.count || 0,
+      vehiculosEnTaller: vehiculos.count || 0,
+      clientesRegistrados: clientes.count || 0,
+      ingresosDelMes: 0 // Requiere lógica más compleja, en cero por ahora
+    };
+  },
+  getRecentOrdenes: async () => {
+    return handleResponse(await supabaseClient.from('ordenes').select('*, vehiculos(marca, modelo, clientes(nombre, apellido))').order('fecha', { ascending: false }).limit(5));
+  }
 };
