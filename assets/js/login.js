@@ -82,11 +82,10 @@ function initLogin() {
       return;
     }
 
-    // Captcha desactivado temporalmente
-    // if (!recaptchaToken) {
-    //   capErr.style.display = 'block';
-    //   return;
-    // }
+    if (!recaptchaToken) {
+      capErr.style.display = 'block';
+      return;
+    }
 
     submitBtn.disabled = true;
     submitBtn.style.opacity = '0.7';
@@ -98,7 +97,10 @@ function initLogin() {
       
       const { data, error } = await supabaseClient.auth.signInWithPassword({
         email,
-        password
+        password,
+        options: {
+          captchaToken: recaptchaToken
+        }
       });
 
       if (error) throw new Error(error.message);
