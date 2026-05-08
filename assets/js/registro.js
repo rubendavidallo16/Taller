@@ -70,7 +70,7 @@ function initRegistro() {
       font-family:Inter,sans-serif; font-weight:500;
     ">⚠ Completa la verificación de seguridad para continuar</p>
   `;
-  form.insertBefore(recaptchaWrapper, submitBtn);
+  submitBtn.parentNode.insertBefore(recaptchaWrapper, submitBtn);
 
 
   console.log("submitBtn seleccionado:", submitBtn);
