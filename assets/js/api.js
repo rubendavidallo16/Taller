@@ -6,12 +6,23 @@ function handleResponse({ data, error }) {
   return data;
 }
 
+// Función auxiliar para simular la paginación de Spring Boot
+async function paginateQuery(query, page, size) {
+  const from = page * size;
+  const to = from + size - 1;
+  const { data, error, count } = await query.range(from, to);
+  if (error) throw new Error(error.message);
+  return {
+    content: data || [],
+    totalPages: count ? Math.ceil(count / size) : 1,
+    totalElements: count || 0
+  };
+}
+
 window.API = {
   // Clientes
   getClientes: async (page = 0, size = 10) => {
-    const from = page * size;
-    const to = from + size - 1;
-    return handleResponse(await supabaseClient.from('clientes').select('*').range(from, to));
+    return paginateQuery(supabaseClient.from('clientes').select('*', { count: 'exact' }).order('created_at', { ascending: false }), page, size);
   },
   getClienteById: async (id) => {
     return handleResponse(await supabaseClient.from('clientes').select('*').eq('id', id).single());
@@ -26,14 +37,14 @@ window.API = {
     return handleResponse(await supabaseClient.from('clientes').delete().eq('id', id));
   },
   searchClientes: async (q) => {
-    return handleResponse(await supabaseClient.from('clientes').select('*').or(`nombre.ilike.%${q}%,apellido.ilike.%${q}%,email.ilike.%${q}%,telefono.ilike.%${q}%`));
+    const { data, error } = await supabaseClient.from('clientes').select('*').or(`nombre.ilike.%${q}%,apellido.ilike.%${q}%,email.ilike.%${q}%,telefono.ilike.%${q}%`);
+    if (error) throw new Error(error.message);
+    return { content: data || [], totalPages: 1 };
   },
 
   // Vehículos
   getVehiculos: async (page = 0, size = 10) => {
-    const from = page * size;
-    const to = from + size - 1;
-    return handleResponse(await supabaseClient.from('vehiculos').select('*, clientes(*)').range(from, to));
+    return paginateQuery(supabaseClient.from('vehiculos').select('*, clientes(*)', { count: 'exact' }).order('created_at', { ascending: false }), page, size);
   },
   getVehiculoById: async (id) => {
     return handleResponse(await supabaseClient.from('vehiculos').select('*, clientes(*)').eq('id', id).single());
@@ -48,16 +59,17 @@ window.API = {
     return handleResponse(await supabaseClient.from('vehiculos').delete().eq('id', id));
   },
   getVehiculosByCliente: async (cid) => {
-    return handleResponse(await supabaseClient.from('vehiculos').select('*').eq('cliente_id', cid));
+    const { data, error } = await supabaseClient.from('vehiculos').select('*').eq('cliente_id', cid);
+    if (error) throw new Error(error.message);
+    return { content: data || [], totalPages: 1 };
   },
 
   // Órdenes
   getOrdenes: async (page = 0, size = 10, estado = '') => {
-    const from = page * size;
-    const to = from + size - 1;
-    let query = supabaseClient.from('ordenes').select('*, vehiculos(*, clientes(*))');
+    let query = supabaseClient.from('ordenes').select('*, vehiculos(*, clientes(*))', { count: 'exact' });
     if (estado) query = query.eq('estado', estado);
-    return handleResponse(await query.range(from, to).order('fecha', { ascending: false }));
+    query = query.order('fecha', { ascending: false });
+    return paginateQuery(query, page, size);
   },
   getOrdenById: async (id) => {
     return handleResponse(await supabaseClient.from('ordenes').select('*, vehiculos(*, clientes(*)), orden_items(*)').eq('id', id).single());
@@ -81,9 +93,7 @@ window.API = {
 
   // Servicios
   getServicios: async (page = 0, size = 10) => {
-    const from = page * size;
-    const to = from + size - 1;
-    return handleResponse(await supabaseClient.from('servicios').select('*').range(from, to));
+    return paginateQuery(supabaseClient.from('servicios').select('*', { count: 'exact' }), page, size);
   },
   createServicio: async (data) => {
     return handleResponse(await supabaseClient.from('servicios').insert([data]).select().single());
@@ -97,9 +107,7 @@ window.API = {
 
   // Repuestos
   getRepuestos: async (page = 0, size = 10) => {
-    const from = page * size;
-    const to = from + size - 1;
-    return handleResponse(await supabaseClient.from('repuestos').select('*').range(from, to));
+    return paginateQuery(supabaseClient.from('repuestos').select('*', { count: 'exact' }), page, size);
   },
   createRepuesto: async (data) => {
     return handleResponse(await supabaseClient.from('repuestos').insert([data]).select().single());
@@ -113,9 +121,7 @@ window.API = {
 
   // Usuarios
   getUsuarios: async (page = 0, size = 10) => {
-    const from = page * size;
-    const to = from + size - 1;
-    return handleResponse(await supabaseClient.from('usuarios').select('*').range(from, to));
+    return paginateQuery(supabaseClient.from('usuarios').select('*', { count: 'exact' }).order('created_at', { ascending: false }), page, size);
   },
   createUsuario: async (data) => {
     return handleResponse(await supabaseClient.from('usuarios').insert([data]).select().single());
@@ -129,7 +135,6 @@ window.API = {
 
   // Dashboard
   getDashboardStats: async () => {
-    // Para simplificar, obtenemos los conteos básicos
     const [ordenesActivas, vehiculos, clientes] = await Promise.all([
       supabaseClient.from('ordenes').select('id', { count: 'exact', head: true }).in('estado', ['RECIBIDO', 'EN_PROCESO']),
       supabaseClient.from('vehiculos').select('id', { count: 'exact', head: true }),
@@ -139,7 +144,7 @@ window.API = {
       ordenesActivas: ordenesActivas.count || 0,
       vehiculosEnTaller: vehiculos.count || 0,
       clientesRegistrados: clientes.count || 0,
-      ingresosDelMes: 0 // Requiere lógica más compleja, en cero por ahora
+      ingresosDelMes: 0
     };
   },
   getRecentOrdenes: async () => {
