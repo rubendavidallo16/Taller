@@ -115,7 +115,7 @@ async function loadOrdenes() {
     const data = await API.getOrdenes(currentPage, PAGE_SIZE, queryEstado);
     const container = document.querySelector('.bg-surface-container.flex-1.overflow-auto');
     if (!container) return;
-    
+
     // Mantener la fila de cabecera
     const header = container.querySelector('.grid.border-b');
     container.innerHTML = '';
@@ -137,7 +137,7 @@ async function loadOrdenes() {
         </div>
         <div class="col-span-4 flex justify-end gap-2 opacity-100">
           <button class="text-white hover:text-primary-container p-1 btn-view" data-id="${orden.id}"><span class="material-symbols-outlined text-lg pointer-events-none">visibility</span></button>
-          ${orden.estado === 'RECIBIDO' ? `<button class="text-white hover:text-red-500 p-1 btn-del" data-id="${orden.id}"><span class="material-symbols-outlined text-lg pointer-events-none">delete</span></button>` : ''}
+          ${orden.estado === 'RECIBIDO' || orden.estado === 'ENTREGADO' ? `<button class="text-white hover:text-red-500 p-1 btn-del" data-id="${orden.id}"><span class="material-symbols-outlined text-lg pointer-events-none">delete</span></button>` : ''}
         </div>
       `;
       container.appendChild(row);
@@ -181,7 +181,7 @@ async function verDetalle(id) {
     }
 
     renderItemsPanel(orden.items || []);
-  } catch(e) {
+  } catch (e) {
     console.error(e);
   }
 }
@@ -245,7 +245,7 @@ async function loadItemOptions() {
       sel.innerHTML = loadedOptions.repuesto.map(s => `<option value="${s.id}" data-precio="${s.precio}">${s.nombre}</option>`).join('');
     }
     updatePrecioField();
-  } catch(e) {}
+  } catch (e) { }
 }
 
 document.getElementById('item-id')?.addEventListener('change', updatePrecioField);
@@ -259,13 +259,13 @@ function updatePrecioField() {
 
 async function agregarItem(e) {
   e.preventDefault();
-  if(!currentOrdenId) return Utils.showToast('Seleccione una orden primero', 'error');
+  if (!currentOrdenId) return Utils.showToast('Seleccione una orden primero', 'error');
   const tipo = document.getElementById('item-tipo').value;
   const itemId = document.getElementById('item-id').value;
   const cantidad = document.getElementById('item-cant').value;
   const precio = document.getElementById('item-precio').value;
-  
-  if(!itemId) return;
+
+  if (!itemId) return;
 
   const cant = parseFloat(cantidad) || 1;
   const p = parseFloat(precio) || 0;
@@ -273,14 +273,14 @@ async function agregarItem(e) {
     cantidad: cant,
     subtotal: cant * p
   };
-  if(tipo === 'SERVICIO') body.servicio_id = itemId;
+  if (tipo === 'SERVICIO') body.servicio_id = itemId;
   else body.repuesto_id = itemId;
 
   try {
     await API.addItemToOrden(currentOrdenId, body);
     Utils.showToast('Ítem agregado', 'success');
     await verDetalle(currentOrdenId);
-  } catch(e) {
+  } catch (e) {
     Utils.showToast(e.message || 'Error', 'error');
   }
 }
@@ -290,14 +290,14 @@ async function eliminarItem(itemId) {
     await API.removeItemFromOrden(currentOrdenId, itemId);
     Utils.showToast('Ítem eliminado', 'success');
     await verDetalle(currentOrdenId);
-  } catch(e) {
+  } catch (e) {
     Utils.showToast(e.message || 'Error', 'error');
   }
 }
 
 function setupEventListeners() {
   document.getElementById('form-item').addEventListener('submit', agregarItem);
-  
+
   document.querySelector('.bg-surface-container.flex-1.overflow-auto')?.addEventListener('click', e => {
     const btnV = e.target.closest('.btn-view');
     const btnD = e.target.closest('.btn-del');
@@ -308,7 +308,7 @@ function setupEventListeners() {
           await API.deleteOrden(btnD.getAttribute('data-id'));
           Utils.showToast('Orden eliminada', 'success');
           loadOrdenes();
-        }catch(e) { Utils.showToast(e.message, 'error'); }
+        } catch (e) { Utils.showToast(e.message, 'error'); }
       });
     }
   });
@@ -325,8 +325,8 @@ function setupEventListeners() {
       sv.innerHTML = '<option disabled>Cargando...</option>';
       try {
         const v = await API.getVehiculos(0, 100);
-        sv.innerHTML = (v.content||[]).map(x => `<option value="${x.id}">${x.placa} - ${x.marca}</option>`).join('');
-      } catch(e) {}
+        sv.innerHTML = (v.content || []).map(x => `<option value="${x.id}">${x.placa} - ${x.marca}</option>`).join('');
+      } catch (e) { }
     });
   }
 
@@ -340,6 +340,6 @@ function setupEventListeners() {
       document.getElementById('modal-nueva-orden').style.display = 'none';
       e.target.reset();
       loadOrdenes();
-    } catch(err) { Utils.showToast('Error al crear orden', 'error'); }
+    } catch (err) { Utils.showToast('Error al crear orden', 'error'); }
   });
 }
