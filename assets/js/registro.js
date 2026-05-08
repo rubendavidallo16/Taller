@@ -111,10 +111,11 @@ function initRegistro() {
       return;
     }
 
-    if (!recaptchaToken) {
-      if (capErr) capErr.style.display = 'block';
-      return;
-    }
+    // Captcha desactivado temporalmente
+    // if (!recaptchaToken) {
+    //   if (capErr) capErr.style.display = 'block';
+    //   return;
+    // }
 
     submitBtn.disabled = true;
     submitBtn.style.opacity = '0.7';
@@ -130,7 +131,6 @@ function initRegistro() {
         email,
         password,
         options: {
-          captchaToken: recaptchaToken,
           data: {
             nombre: nombre,
             apellido: apellido,
