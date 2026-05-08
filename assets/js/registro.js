@@ -1,27 +1,27 @@
-let recaptchaToken = null;
+let turnstileToken = null;
 let widgetId = null;
 
-window.onRecaptchaReady = function () {
-  if (!document.getElementById('recaptcha-login')) {
+window.onTurnstileReady = function () {
+  if (!document.getElementById('turnstile-login')) {
     // Si el DOM aun no ha inyectado el div, esperamos 50ms
-    setTimeout(window.onRecaptchaReady, 50);
+    setTimeout(window.onTurnstileReady, 50);
     return;
   }
   try {
-    widgetId = grecaptcha.render('recaptcha-login', {
+    widgetId = turnstile.render('#turnstile-login', {
       sitekey: window.CONFIG ? CONFIG.RECAPTCHA_SITE_KEY : '',
       theme: 'dark',
       callback: (token) => {
-        recaptchaToken = token;
-        const capErr = document.getElementById('recaptcha-error');
+        turnstileToken = token;
+        const capErr = document.getElementById('turnstile-error');
         if (capErr) capErr.style.display = 'none';
       },
       'expired-callback': () => {
-        recaptchaToken = null;
+        turnstileToken = null;
       }
     });
   } catch (e) {
-    console.warn("reCAPTCHA render error:", e);
+    console.warn("Turnstile render error:", e);
   }
 };
 
@@ -59,12 +59,12 @@ function initRegistro() {
   `;
   submitBtn.parentNode.insertBefore(successDiv, submitBtn);
 
-  // Contenedor reCAPTCHA
+  // Contenedor Turnstile
   const recaptchaWrapper = document.createElement('div');
   recaptchaWrapper.style.cssText = 'margin-bottom:1rem;';
   recaptchaWrapper.innerHTML = `
-    <div id="recaptcha-login"></div>
-    <p id="recaptcha-error" style="
+    <div id="turnstile-login"></div>
+    <p id="turnstile-error" style="
       display:none; margin-top:0.4rem;
       font-size:0.72rem; color:#FCA5A5;
       font-family:Inter,sans-serif; font-weight:500;
@@ -90,7 +90,7 @@ function initRegistro() {
 
     errorDiv.style.display = 'none';
     successDiv.style.display = 'none';
-    const capErr = document.getElementById('recaptcha-error');
+    const capErr = document.getElementById('turnstile-error');
     if (capErr) capErr.style.display = 'none';
 
     if (!nombre || !apellido || !email || !password || !confirmPassword) {
@@ -111,7 +111,7 @@ function initRegistro() {
       return;
     }
 
-    if (!recaptchaToken) {
+    if (!turnstileToken) {
       if (capErr) capErr.style.display = 'block';
       return;
     }
@@ -130,7 +130,7 @@ function initRegistro() {
         email,
         password,
         options: {
-          captchaToken: recaptchaToken,
+          captchaToken: turnstileToken,
           data: {
             nombre: nombre,
             apellido: apellido,
@@ -158,8 +158,8 @@ function initRegistro() {
     } catch (err) {
       errorDiv.textContent = err.message || 'Error al crear la cuenta.';
       errorDiv.style.display = 'block';
-      recaptchaToken = null;
-      if (widgetId !== null && window.grecaptcha) grecaptcha.reset(widgetId);
+      turnstileToken = null;
+      if (widgetId !== null && window.turnstile) turnstile.reset(widgetId);
     } finally {
       submitBtn.disabled = false;
       submitBtn.style.opacity = '1';
