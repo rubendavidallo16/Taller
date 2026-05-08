@@ -137,7 +137,7 @@ async function loadOrdenes() {
         </div>
         <div class="col-span-4 flex justify-end gap-2 opacity-100">
           <button class="text-white hover:text-primary-container p-1 btn-view" data-id="${orden.id}"><span class="material-symbols-outlined text-lg pointer-events-none">visibility</span></button>
-          ${orden.estado === 'ENTREGADO' || orden.estado === 'RECIBIDO' ? `<button class="text-white hover:text-red-500 p-1 btn-del" data-id="${orden.id}"><span class="material-symbols-outlined text-lg pointer-events-none">delete</span></button>` : ''}
+          ${(orden.estado === 'ENTREGADO' || orden.estado === 'RECIBIDO') ? `<button class="text-white hover:text-red-500 p-1 btn-del" data-id="${orden.id}"><span class="material-symbols-outlined text-lg pointer-events-none">delete</span></button>` : ''}
         </div>
       `;
       container.appendChild(row);
