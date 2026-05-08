@@ -178,7 +178,7 @@ async function loadVehiculos(page = 0, search = '') {
       const tr = document.createElement('tr');
       tr.className = 'border-b border-surface-container-highest hover:bg-surface-container-high/30 transition-colors';
       
-      const c = veh.cliente ? `${veh.cliente.nombre || ''} ${veh.cliente.apellido || ''}`.trim() : 'Sin Cliente';
+      const c = veh.clientes ? `${veh.clientes.nombre || ''} ${veh.clientes.apellido || ''}`.trim() : 'Sin Cliente';
       const colorVal = (veh.color || 'NN').toUpperCase();
       const hex = COLOR_MAP[colorVal] || '#3A3A3A';
 
@@ -300,8 +300,8 @@ async function openModal(mode, vehiculo = null) {
     document.getElementById('field-anio').value = vehiculo.anio || '';
     document.getElementById('field-color').value = vehiculo.color || '';
     document.getElementById('field-kilometraje').value = vehiculo.kilometraje || '';
-    if (vehiculo.cliente && vehiculo.cliente.id) {
-      document.getElementById('field-cliente').value = vehiculo.cliente.id;
+    if (vehiculo.clientes && vehiculo.clientes.id) {
+      document.getElementById('field-cliente').value = vehiculo.clientes.id;
     }
   }
   
@@ -323,7 +323,7 @@ async function handleSubmit(e) {
     anio: parseInt(document.getElementById('field-anio').value, 10),
     color: document.getElementById('field-color').value,
     kilometraje: parseInt(document.getElementById('field-kilometraje').value, 10),
-    cliente: { id: parseInt(document.getElementById('field-cliente').value, 10) }
+    cliente_id: document.getElementById('field-cliente').value
   };
   
   try {
