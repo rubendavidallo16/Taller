@@ -319,7 +319,7 @@ async function handleSubmit(e) {
   
   const placa = document.getElementById('field-placa').value.toUpperCase();
   
-  if (/^\\d+$/.test(placa)) {
+  if (/^[0-9]+$/.test(placa)) {
     return Utils.showToast('La placa no puede contener solo números (debe ser alfanumérica)', 'warning');
   }
 

@@ -269,7 +269,7 @@ async function handleSubmit(e) {
   const nombre = document.getElementById('field-nombre').value;
   const apellido = document.getElementById('field-apellido').value;
   
-  if (/\\d/.test(nombre) || /\\d/.test(apellido)) {
+  if (/[0-9]/.test(nombre) || /[0-9]/.test(apellido)) {
     return Utils.showToast('El nombre y apellido no pueden contener números', 'warning');
   }
 
