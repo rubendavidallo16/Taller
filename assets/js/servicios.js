@@ -192,10 +192,22 @@ function closeModal() {
 
 async function handleSubmit(e) {
   e.preventDefault();
+  
+  const nombre = document.getElementById('field-nombre').value.trim();
+  const descripcion = document.getElementById('field-descripcion').value.trim();
+  const precio = parseFloat(document.getElementById('field-precio').value);
+
+  if (nombre.length < 3) {
+    return Utils.showToast('El nombre del servicio debe tener al menos 3 caracteres', 'warning');
+  }
+  if (isNaN(precio) || precio <= 0) {
+    return Utils.showToast('El precio debe ser mayor a 0', 'warning');
+  }
+
   const data = {
-    nombre: document.getElementById('field-nombre').value,
-    descripcion: document.getElementById('field-descripcion').value,
-    precio: parseFloat(document.getElementById('field-precio').value)
+    nombre: nombre,
+    descripcion: descripcion,
+    precio: precio
   };
   try {
     if (editingId) {

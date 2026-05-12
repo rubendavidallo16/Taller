@@ -265,9 +265,17 @@ function closeModal() {
 
 async function handleSubmit(e) {
   e.preventDefault();
+  
+  const nombre = document.getElementById('field-nombre').value;
+  const apellido = document.getElementById('field-apellido').value;
+  
+  if (/\\d/.test(nombre) || /\\d/.test(apellido)) {
+    return Utils.showToast('El nombre y apellido no pueden contener números', 'warning');
+  }
+
   const data = {
-    nombre: document.getElementById('field-nombre').value,
-    apellido: document.getElementById('field-apellido').value,
+    nombre: nombre,
+    apellido: apellido,
     cedula: document.getElementById('field-cedula').value,
     telefono: document.getElementById('field-telefono').value,
     email: document.getElementById('field-email').value,

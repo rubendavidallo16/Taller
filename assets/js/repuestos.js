@@ -214,11 +214,30 @@ function closeModal() {
 
 async function handleSubmit(e) {
   e.preventDefault();
+  
+  const nombre = document.getElementById('field-nombre').value.trim();
+  const referencia = document.getElementById('field-referencia').value.trim();
+  const stock = parseInt(document.getElementById('field-stock').value, 10);
+  const precio = parseFloat(document.getElementById('field-precio').value);
+
+  if (nombre.length < 3) {
+    return Utils.showToast('El nombre debe tener al menos 3 caracteres', 'warning');
+  }
+  if (!referencia) {
+    return Utils.showToast('La referencia es obligatoria', 'warning');
+  }
+  if (isNaN(stock) || stock < 0) {
+    return Utils.showToast('El stock no puede ser negativo', 'warning');
+  }
+  if (isNaN(precio) || precio <= 0) {
+    return Utils.showToast('El precio debe ser mayor a 0', 'warning');
+  }
+
   const data = {
-    nombre: document.getElementById('field-nombre').value,
-    referencia: document.getElementById('field-referencia').value,
-    stock: parseInt(document.getElementById('field-stock').value),
-    precio: parseFloat(document.getElementById('field-precio').value)
+    nombre: nombre,
+    referencia: referencia,
+    stock: stock,
+    precio: precio
   };
   try {
     if (editingId) {

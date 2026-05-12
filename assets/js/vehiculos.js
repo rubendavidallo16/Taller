@@ -316,8 +316,15 @@ function closeModal() {
 
 async function handleSubmit(e) {
   e.preventDefault();
+  
+  const placa = document.getElementById('field-placa').value.toUpperCase();
+  
+  if (/^\\d+$/.test(placa)) {
+    return Utils.showToast('La placa no puede contener solo números (debe ser alfanumérica)', 'warning');
+  }
+
   const data = {
-    placa: document.getElementById('field-placa').value.toUpperCase(),
+    placa: placa,
     marca: document.getElementById('field-marca').value,
     modelo: document.getElementById('field-modelo').value,
     anio: parseInt(document.getElementById('field-anio').value, 10),

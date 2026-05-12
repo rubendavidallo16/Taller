@@ -334,6 +334,14 @@ function setupEventListeners() {
     e.preventDefault();
     const vehiculoId = document.getElementById('select-vehiculo').value;
     const observaciones = document.getElementById('obs-orden').value;
+    
+    if (!vehiculoId || vehiculoId.includes('Cargando')) {
+      return Utils.showToast('Debe seleccionar un vehículo válido', 'warning');
+    }
+    if (observaciones.trim().length < 5) {
+      return Utils.showToast('Las observaciones deben ser más descriptivas', 'warning');
+    }
+
     try {
       await API.createOrden({ vehiculo_id: vehiculoId, observaciones });
       Utils.showToast('Orden creada', 'success');
