@@ -200,6 +200,9 @@ async function handleSubmit(e) {
   if (nombre.length < 3) {
     return Utils.showToast('El nombre del servicio debe tener al menos 3 caracteres', 'warning');
   }
+  if (/[0-9]/.test(nombre)) {
+    return Utils.showToast('El nombre del servicio no puede contener números', 'warning');
+  }
   if (isNaN(precio) || precio <= 0) {
     return Utils.showToast('El precio debe ser mayor a 0', 'warning');
   }

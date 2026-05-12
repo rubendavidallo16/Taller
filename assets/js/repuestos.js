@@ -223,6 +223,9 @@ async function handleSubmit(e) {
   if (nombre.length < 3) {
     return Utils.showToast('El nombre debe tener al menos 3 caracteres', 'warning');
   }
+  if (/[0-9]/.test(nombre)) {
+    return Utils.showToast('El nombre del repuesto no puede contener números', 'warning');
+  }
   if (!referencia) {
     return Utils.showToast('La referencia es obligatoria', 'warning');
   }
