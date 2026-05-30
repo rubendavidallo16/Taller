@@ -3,7 +3,6 @@ let widgetId = null;
 
 window.onTurnstileReady = function() {
   if (!document.getElementById('turnstile-login')) {
-    // Si el DOM aun no ha inyectado el div, esperamos 50ms
     setTimeout(window.onTurnstileReady, 50);
     return;
   }
@@ -93,27 +92,26 @@ function initLogin() {
     submitBtn.innerHTML = '<span style="font-family:Inter,sans-serif">AUTENTICANDO...</span>';
 
     try {
-      if (!window.supabaseClient) throw new Error('Supabase no inicializado.');
-      
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password,
-        options: {
+      const response = await fetch(`${CONFIG.API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email,
+          password,
           captchaToken: turnstileToken
-        }
+        })
       });
 
-      if (error) throw new Error(error.message);
+      const data = await response.json();
 
-      // Adaptación al sistema antiguo de sesión para no romper otras partes
-      const metadata = data.user.user_metadata || {};
-      Auth.saveSession(data.session.access_token, {
-        id: data.user.id,
-        email: data.user.email,
-        role: metadata.role || 'USER',
-        nombre: metadata.nombre || '',
-        apellido: metadata.apellido || ''
-      });
+      if (!response.ok) {
+        throw new Error(data.message || 'Error al iniciar sesión.');
+      }
+
+      // Guardamos la sesión con el token y metadatos devueltos por el backend
+      Auth.saveSession(data.token, data.user);
       
       window.location.replace('/pages/dashboard.html');
     } catch (err) {
@@ -133,4 +131,3 @@ if (document.readyState === 'loading') {
 } else {
   initLogin();
 }
-

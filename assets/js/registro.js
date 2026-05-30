@@ -3,7 +3,6 @@ let widgetId = null;
 
 window.onTurnstileReady = function () {
   if (!document.getElementById('turnstile-login')) {
-    // Si el DOM aun no ha inyectado el div, esperamos 50ms
     setTimeout(window.onTurnstileReady, 50);
     return;
   }
@@ -72,14 +71,7 @@ function initRegistro() {
   `;
   submitBtn.parentNode.insertBefore(recaptchaWrapper, submitBtn);
 
-
-  console.log("submitBtn seleccionado:", submitBtn);
-  if (!submitBtn) {
-    console.error("submitBtn es null!");
-  }
-
   submitBtn.addEventListener('click', async (e) => {
-    console.log("Botón de registro clickeado!");
     e.preventDefault();
 
     const nombre = document.getElementById('nombre').value.trim();
@@ -122,26 +114,24 @@ function initRegistro() {
     submitBtn.innerHTML = '<span style="font-family:Inter,sans-serif">REGISTRANDO...</span>';
 
     try {
-      if (!window.supabaseClient) throw new Error('Supabase no inicializado.');
-
-      const { data, error } = await supabaseClient.auth.signUp({
-        email,
-        password,
-        options: {
-          captchaToken: turnstileToken,
-          data: {
-            nombre: nombre,
-            apellido: apellido,
-            role: 'USER' // Rol por defecto
-          }
-        }
+      const response = await fetch(`${CONFIG.API_BASE_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nombre,
+          apellido,
+          email,
+          password,
+          captchaToken: turnstileToken
+        })
       });
 
-      if (error) throw new Error(error.message);
+      const data = await response.json();
 
-      // Algunos proveedores requieren verificación de correo:
-      if (data.user && data.user.identities && data.user.identities.length === 0) {
-        throw new Error('Este correo ya está registrado.');
+      if (!response.ok) {
+        throw new Error(data.message || 'Error al crear la cuenta.');
       }
 
       successDiv.textContent = '¡Registro exitoso! Ya puedes iniciar sesión.';
@@ -171,4 +161,3 @@ if (document.readyState === 'loading') {
 } else {
   initRegistro();
 }
-
