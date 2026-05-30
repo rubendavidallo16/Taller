@@ -1,0 +1,72 @@
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
+
+CREATE TABLE public.clientes (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  nombre character varying NOT NULL,
+  apellido character varying NOT NULL,
+  cedula character varying,
+  telefono character varying,
+  email character varying,
+  direccion text,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT clientes_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.orden_items (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  orden_id uuid,
+  servicio_id uuid,
+  repuesto_id uuid,
+  cantidad integer DEFAULT 1,
+  subtotal numeric DEFAULT 0.00,
+  CONSTRAINT orden_items_pkey PRIMARY KEY (id),
+  CONSTRAINT orden_items_orden_id_fkey FOREIGN KEY (orden_id) REFERENCES public.ordenes(id),
+  CONSTRAINT orden_items_servicio_id_fkey FOREIGN KEY (servicio_id) REFERENCES public.servicios(id),
+  CONSTRAINT orden_items_repuesto_id_fkey FOREIGN KEY (repuesto_id) REFERENCES public.repuestos(id)
+);
+CREATE TABLE public.ordenes (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  vehiculo_id uuid,
+  estado character varying DEFAULT 'RECIBIDO'::character varying,
+  fecha timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  observaciones text,
+  CONSTRAINT ordenes_pkey PRIMARY KEY (id),
+  CONSTRAINT ordenes_vehiculo_id_fkey FOREIGN KEY (vehiculo_id) REFERENCES public.vehiculos(id)
+);
+CREATE TABLE public.repuestos (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  nombre character varying NOT NULL,
+  referencia character varying,
+  stock integer DEFAULT 0,
+  precio numeric DEFAULT 0.00,
+  CONSTRAINT repuestos_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.servicios (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  nombre character varying NOT NULL,
+  descripcion text,
+  precio numeric DEFAULT 0.00,
+  CONSTRAINT servicios_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.usuarios (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  nombre character varying NOT NULL,
+  apellido character varying NOT NULL,
+  email character varying NOT NULL UNIQUE,
+  role character varying DEFAULT 'USER'::character varying,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  CONSTRAINT usuarios_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.vehiculos (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  cliente_id uuid,
+  marca character varying,
+  modelo character varying,
+  anio integer,
+  placa character varying,
+  created_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now()),
+  color character varying,
+  kilometraje integer DEFAULT 0,
+  CONSTRAINT vehiculos_pkey PRIMARY KEY (id),
+  CONSTRAINT vehiculos_cliente_id_fkey FOREIGN KEY (cliente_id) REFERENCES public.clientes(id)
+);
