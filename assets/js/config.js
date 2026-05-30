@@ -1,5 +1,5 @@
 window.CONFIG = {
-  API_BASE_URL: 'http://localhost:8081/api',
+  API_BASE_URL: 'https://taller-vn7f.onrender.com/api',
   TOKEN_KEY: 'paddock_token',
   USER_KEY: 'paddock_user',
   ROLE_KEY: 'paddock_role',
