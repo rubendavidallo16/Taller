@@ -40,7 +40,7 @@ router.get('/', async (req, res) => {
 
     const content = rows.map(row => {
       const { full_count, ...cleanRow } = row;
-      return cleanRow;
+      return { ...cleanRow, rol: row.role };
     });
 
     return res.json({
@@ -87,15 +87,16 @@ router.post('/', async (req, res) => {
 
     // 2. Insertar o actualizar en la tabla public.usuarios (para prever si hay trigger o no)
     const { rows } = await db.query(
-      `INSERT INTO usuarios (id, email, nombre, apellido, rol, estado, created_at)
-       VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP)
+      `INSERT INTO usuarios (id, email, nombre, apellido, role, created_at)
+       VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP)
        ON CONFLICT (id) DO UPDATE 
-       SET email = $2, nombre = $3, apellido = $4, rol = $5, estado = $6
+       SET email = $2, nombre = $3, apellido = $4, role = $5
        RETURNING *`,
-      [userId, email, nombre, apellido, rol, estado]
+      [userId, email, nombre, apellido, rol]
     );
 
-    return res.status(201).json(rows[0] || { id: userId, email, nombre, apellido, rol, estado });
+    const savedUser = rows[0] ? { ...rows[0], rol: rows[0].role } : { id: userId, email, nombre, apellido, rol, estado };
+    return res.status(201).json(savedUser);
   } catch (err) {
     console.error("Error al crear usuario:", err.message);
     return res.status(500).json({ message: 'Error interno al registrar el usuario.' });
@@ -137,22 +138,22 @@ router.put('/:id', async (req, res) => {
     // 2. Actualizar datos en la tabla public.usuarios
     const { rows } = await db.query(
       `UPDATE usuarios 
-       SET email = $1, nombre = $2, apellido = $3, rol = $4, estado = $5 
-       WHERE id = $6 RETURNING *`,
-      [email, nombre, apellido, rol, estado, id]
+       SET email = $1, nombre = $2, apellido = $3, role = $4 
+       WHERE id = $5 RETURNING *`,
+      [email, nombre, apellido, rol, id]
     );
 
     if (rows.length === 0) {
       // Si por alguna razón el perfil no existía en public.usuarios, lo insertamos
       const insertRes = await db.query(
-        `INSERT INTO usuarios (id, email, nombre, apellido, rol, estado, created_at)
-         VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP) RETURNING *`,
-        [id, email, nombre, apellido, rol, estado]
+        `INSERT INTO usuarios (id, email, nombre, apellido, role, created_at)
+         VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP) RETURNING *`,
+        [id, email, nombre, apellido, rol]
       );
-      return res.json(insertRes.rows[0]);
+      return res.json({ ...insertRes.rows[0], rol: insertRes.rows[0].role });
     }
 
-    return res.json(rows[0]);
+    return res.json({ ...rows[0], rol: rows[0].role });
   } catch (err) {
     console.error(`Error al actualizar usuario ${id}:`, err.message);
     return res.status(500).json({ message: 'Error al actualizar el usuario.' });

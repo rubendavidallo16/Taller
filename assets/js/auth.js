@@ -45,7 +45,7 @@ function getTokenRemainingMs() {
 function getUserRole() {
   const payload = decodeToken();
   if (!payload) return null;
-  return payload.role || (payload.roles && payload.roles[0]) || null;
+  return payload.user_metadata?.role || payload.role || (payload.roles && payload.roles[0]) || null;
 }
 
 function getUserName() {
