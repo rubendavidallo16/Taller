@@ -199,11 +199,16 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ message: 'El vehículo y las observaciones son requeridos.' });
   }
 
+  const vehiculoIdInt = parseInt(vehiculo_id, 10);
+  if (isNaN(vehiculoIdInt)) {
+    return res.status(400).json({ message: 'El ID del vehículo debe ser un número válido.' });
+  }
+
   try {
     const { rows } = await db.query(
       `INSERT INTO ordenes (vehiculo_id, observaciones, estado, fecha, total) 
        VALUES ($1, $2, 'RECIBIDO', CURRENT_TIMESTAMP, 0.00) RETURNING *`,
-      [vehiculo_id, observaciones]
+      [vehiculoIdInt, observaciones]
     );
     return res.status(201).json(rows[0]);
   } catch (err) {
